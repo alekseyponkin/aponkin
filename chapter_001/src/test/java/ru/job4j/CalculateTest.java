@@ -7,19 +7,19 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
-*Test.
+* Test.
 *
-*@autor Ponkin Aleksey (mailto: ponkin.a.v@gmail.com)
-*@version $Id$
-*@since 0.1
+* @author Ponkin Aleksey (mailto: ponkin.a.v@gmail.com)
+* @version $Id$
+* @since 0.1
 */
 
-public class CalculateTest{
+public class CalculateTest {
 	/**
-	*Test add.
+	* Test add.
 	*/
 	@Test
-	public void whenAddOneToOneThenTwo(){
+	public void whenAddOneToOneThenTwo() {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(out));
 		Calculate.main(null);

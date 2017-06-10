@@ -1,5 +1,5 @@
 /**
-*Package for calculate task.
+*Test JUnit.
 *
 *@author Ponkin Aleksey (mailto:ponkin.a.v@gmail.com)
 *@version $Id$
