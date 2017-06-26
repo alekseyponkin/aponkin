@@ -43,11 +43,11 @@ public class TriangleTest {
 		assertThat(result, closeTo(expected, 0.01));
 	}
 	/**
-	* Test точка А равна C.
+	* Test точки А, B и C лежат на одной прямой.
 	*/
 	@Test
-	public void whenPointAEqualsC() {
-		Triangle triangle = new Triangle(new Point(-3, -3), new Point(4, 5), new Point(-3, -3));
+	public void whenPointsLieOneLine() {
+		Triangle triangle = new Triangle(new Point(1, 1), new Point(2, 2), new Point(5, 5));
 		double result = triangle.area();
 		double expected = 0;
 		assertThat(result, closeTo(expected, 0.01));

@@ -47,6 +47,9 @@ public class Triangle {
 				return 0;
 			}
 		}
+		if (0 == Math.abs(((this.c.getX() - this.a.getX()) / (this.b.getX() - this.a.getX())) - ((this.c.getY() - this.a.getY()) / (this.b.getY() - this.a.getY())))) {
+				return 0;
+		}
 		return Math.abs(1d / 2 * ((this.b.getX() - this.a.getX()) * (this.c.getY() - this.a.getY()) - (this.c.getX() - this.a.getX()) * (this.b.getY() - this.a.getY())));
 	}
 }
