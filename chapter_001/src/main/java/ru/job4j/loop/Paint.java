@@ -16,23 +16,15 @@ public class Paint {
 	*/
 	public String piramid(int h) {
 		StringBuilder strBuider = new StringBuilder();
-		int maxLine = 1;
-		for (int i = 1; i < h; i++) {
-			maxLine = maxLine + 2;
-		}
+		int maxLine = h + h - 1;
+		int centerLine = maxLine / 2;
 		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < maxLine / 2 - i; j++) {
-				strBuider.append(" ");
-			}
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < maxLine; j++) {
+				if ((j >= centerLine - i) && (j <= centerLine + i)) {
 				strBuider.append("^");
-			}
-			strBuider.append("^");
-			for (int j = 0; j < i; j++) {
-				strBuider.append("^");
-			}
-			for (int j = 0; j < maxLine / 2 - i; j++) {
+				} else {
 				strBuider.append(" ");
+				}
 			}
 			strBuider.append(System.getProperty("line.separator"));
 		}

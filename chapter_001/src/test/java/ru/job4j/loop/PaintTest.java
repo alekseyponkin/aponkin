@@ -26,14 +26,14 @@ public class PaintTest {
         assertThat(result, is(expected));
 	}
 	/**
-	* Test paint piramid height 5.
+	* Test paint piramid height 3.
 	*/
 	@Test
-	public void whenPaintPiramidWithHeightFive() {
+	public void whenPaintPiramidWithHeightThree() {
 		Paint paint = new Paint();
-        String result = paint.piramid(5);
+        String result = paint.piramid(3);
         final String line = System.getProperty("line.separator");
-        String expected = String.format("    ^    %s   ^^^   %s  ^^^^^  %s ^^^^^^^ %s^^^^^^^^^%s", line, line, line, line, line);
+        String expected = String.format("  ^  %s ^^^ %s^^^^^%s", line, line, line);
         assertThat(result, is(expected));
 	}
 }
