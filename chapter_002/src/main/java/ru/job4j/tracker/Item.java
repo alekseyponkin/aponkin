@@ -39,13 +39,12 @@ public class Item {
      * Constructor class Item.
      * @param nameItem name item.
      * @param descriptionItem description item.
-     * @param dateItem dare create item.
      */
-    public Item(String nameItem, String descriptionItem, long dateItem) {
+    public Item(String nameItem, String descriptionItem) {
         this.idItem = String.valueOf(System.currentTimeMillis() + RN.nextInt());
         this.nameItem = nameItem;
         this.descriptionItem = descriptionItem;
-        this.dateItem = dateItem;
+        this.dateItem = System.currentTimeMillis();
     }
 
     /**
@@ -112,7 +111,7 @@ public class Item {
     }
 
     /**
-     * @return array comments item.
+     * @return array comments l
      */
     public String[] getListCommentsItem() {
         return this.listCommentsItem;

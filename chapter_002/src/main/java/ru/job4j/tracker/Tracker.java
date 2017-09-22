@@ -25,7 +25,7 @@ public class Tracker {
     public Item add(Item item) {
         Item result;
         this.items[this.positionItem] = item;
-        result =  this.items[this.positionItem];
+        result =  this.items[positionItem];
         this.positionItem++;
         return result;
     }

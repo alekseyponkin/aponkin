@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 /**
- * Class .
+ * Class test Tacker.
  *
  * @author Ponkin Aleksey
  * @version 1.0.0
@@ -20,7 +20,7 @@ public class TrackerTest {
     @Test
     public void whenAddNewItemThenReturnNameAddedItem() {
         Tracker tracker = new Tracker();
-        Item item = new Item("testName", "testDescription", 123L);
+        Item item = new Item("testName", "testDescription");
         tracker.add(item);
         assertThat(tracker.findAll()[0], is(item));
     }
@@ -31,9 +31,9 @@ public class TrackerTest {
     @Test
     public void whenUpdateNameItemThenReturnNewName() {
         Tracker tracker = new Tracker();
-        Item itemFirst = new Item("testFirst", "testDescriptionFirst", 123L);
+        Item itemFirst = new Item("testFirst", "testDescriptionFirst");
         tracker.add(itemFirst);
-        Item itemSecond = new Item("testSecond", "testDescripitonSecond", 333L);
+        Item itemSecond = new Item("testSecond", "testDescripitonSecond");
         itemSecond.setIdItem(itemFirst.getIdItem());
         tracker.update(itemSecond);
         assertThat(tracker.findById(itemFirst.getIdItem()).getNameItem(), is("testSecond"));
@@ -45,7 +45,7 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemThenSearchIdItem() {
         Tracker tracker = new Tracker();
-        Item itemFirst = new Item("testFirst", "testDescriptionFirst", 123L);
+        Item itemFirst = new Item("testFirst", "testDescriptionFirst");
         tracker.add(itemFirst);
         tracker.delete(itemFirst);
         assertNull(tracker.findById(itemFirst.getIdItem()));
@@ -57,9 +57,9 @@ public class TrackerTest {
     @Test
     public void whenFindAllItemThenVerifyLengthArray() {
         Tracker tracker = new Tracker();
-        Item itemFirst = new Item("testFirst", "testDescriptionFirst", 123L);
+        Item itemFirst = new Item("testFirst", "testDescriptionFirst");
         tracker.add(itemFirst);
-        Item itemSecond = new Item("testSecond", "testDescripitonSecond", 333L);
+        Item itemSecond = new Item("testSecond", "testDescripitonSecond");
         tracker.add(itemSecond);
         assertThat(tracker.findAll().length, is(2));
     }
@@ -70,9 +70,9 @@ public class TrackerTest {
     @Test
     public void whenFindByNameThenVerifyNameReturnArray() {
         Tracker tracker = new Tracker();
-        Item itemFirst = new Item("testFirst", "testDescriptionFirst", 123L);
+        Item itemFirst = new Item("testFirst", "testDescriptionFirst");
         tracker.add(itemFirst);
-        Item itemSecond = new Item("testSecond", "testDescripitonSecond", 333L);
+        Item itemSecond = new Item("testSecond", "testDescripitonSecond");
         tracker.add(itemSecond);
         assertThat(tracker.findByName("testSecond")[0].getNameItem(), is("testSecond"));
     }
@@ -83,7 +83,7 @@ public class TrackerTest {
     @Test
     public void whenFindByIdThenVerifiReturnId() {
         Tracker tracker = new Tracker();
-        Item itemFirst = new Item("testFirst", "testDescriptionFirst", 123L);
+        Item itemFirst = new Item("testFirst", "testDescriptionFirst");
         tracker.add(itemFirst);
         String expect = itemFirst.getIdItem();
         assertThat(tracker.findById(itemFirst.getIdItem()).getIdItem(), is(expect));
