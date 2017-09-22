@@ -111,7 +111,7 @@ public class Item {
     }
 
     /**
-     * @return array comments l
+     * @return array comments items.
      */
     public String[] getListCommentsItem() {
         return this.listCommentsItem;

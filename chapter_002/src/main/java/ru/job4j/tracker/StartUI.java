@@ -13,6 +13,10 @@ public class StartUI {
      */
     private Input input;
     /**
+     * Tracker.
+     */
+    private Tracker tracker;
+    /**
      * Flag work program Tacker.
      */
     private Boolean work = true;
@@ -48,9 +52,11 @@ public class StartUI {
     /**
      * Constructor class StartUI.
      * @param input enter data.
+     * @param tracker tracker.
      */
-    private StartUI(Input input) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
+        this.tracker = tracker;
     }
 
     /**
@@ -90,28 +96,27 @@ public class StartUI {
     /**
      * Initialising program.
      */
-    private void init() {
-        Tracker tracker = new Tracker();
+    public void init() {
         while (this.work) {
             this.showMenu();
             switch (input.ask("Please select action:")) {
                 case ADD :
-                    this.addItem(this.input, tracker);
+                    this.addItem(this.input, this.tracker);
                     break;
                 case SHOW :
-                    this.showAll(tracker);
+                    this.showAll(this.tracker);
                     break;
                 case EDIT :
-                    this.editItem(this.input, tracker);
+                    this.editItem(this.input, this.tracker);
                     break;
                 case DELETE :
-                    this.deleteItem(this.input, tracker);
+                    this.deleteItem(this.input, this.tracker);
                     break;
                 case FIND_ID :
-                    this.findIdItem(this.input, tracker);
+                    this.findIdItem(this.input, this.tracker);
                     break;
                 case FIND_NAME :
-                    this.findNameItem(this.input, tracker);
+                    this.findNameItem(this.input, this.tracker);
                     break;
                 case EXIT :
                     work = false;
@@ -179,6 +184,6 @@ public class StartUI {
      * @param args args.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput()).init();
+        new StartUI(new ConsoleInput(), new Tracker()).init();
     }
 }
