@@ -20,7 +20,7 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerVerifyName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
+        Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getNameItem(), is("test name"));
     }
@@ -32,7 +32,7 @@ public class StubInputTest {
     public void whenUserUpdateThenVerifyNewName() {
         Tracker tracker = new Tracker();
         tracker.add(new Item("test name", "desc"));
-        Input input = new StubInput(new String[]{"2", tracker.findAll()[0].getIdItem(), "new name", "new desc", "6"});
+        Input input = new StubInput(new String[]{"2", tracker.findAll()[0].getIdItem(), "new name", "new desc", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getNameItem(), is("new name"));
     }
@@ -44,7 +44,7 @@ public class StubInputTest {
     public void whenUserDeleteThenFindItem() {
         Tracker tracker = new Tracker();
         tracker.add(new Item("test name", "desc"));
-        Input input = new StubInput(new String[]{"3", tracker.findAll()[0].getIdItem(), "6"});
+        Input input = new StubInput(new String[]{"3", tracker.findAll()[0].getIdItem(), "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().length, is(0));
     }

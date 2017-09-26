@@ -1,7 +1,7 @@
 package ru.job4j.tracker;
 
 /**
- * Class //todo.
+ * Class StabInput.
  *
  * @author Ponkin Aleksey
  * @version 1.0.0
@@ -9,11 +9,11 @@ package ru.job4j.tracker;
  */
 public class StubInput implements Input {
     /**
-     *
+     * Arrays answers.
      */
     private String[] answers;
     /**
-     *
+     * Index position.
      */
     private int position = 0;
 
@@ -27,7 +27,7 @@ public class StubInput implements Input {
 
     /**
      * @param question for the user is displayed in console.
-     * @return
+     * @return string answer.
      */
     @Override
     public String ask(String question) {
