@@ -91,6 +91,18 @@ public class MenuTracker {
     }
 
     /**
+     * Create array key menu.
+     * @return array key menu.
+     */
+    public int[] rangeMenu() {
+        int[] range = new int[this.userActions.length];
+        for (int i = 0; i < this.userActions.length; i++) {
+            range[i] = userActions[i].key();
+        }
+        return range;
+    }
+
+    /**
      * Show menu.
      */
     public void show() {

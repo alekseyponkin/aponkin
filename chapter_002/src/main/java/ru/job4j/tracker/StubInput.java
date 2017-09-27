@@ -33,4 +33,15 @@ public class StubInput implements Input {
     public String ask(String question) {
         return answers[position++];
     }
+
+    /**
+     * Return UnsupportedOperationException.
+     * @param question question.
+     * @param range range.
+     * @return int.
+     */
+    @Override
+    public int ask(String question, int[] range) {
+        return Integer.valueOf(answers[position++]);
+    }
 }

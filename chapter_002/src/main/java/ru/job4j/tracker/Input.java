@@ -13,4 +13,11 @@ public interface Input {
      * @return String answer user.
      */
     String ask(String question);
+
+    /**
+     * @param question for the user is displayed in console.
+     * @param range key menu.
+     * @return int answer user.
+     */
+    int ask(String question, int[] range);
 }
