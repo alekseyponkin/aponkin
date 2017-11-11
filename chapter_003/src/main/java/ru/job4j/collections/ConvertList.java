@@ -60,4 +60,19 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Convert List<int[]> in List<Integer>.
+     * @param list source.
+     * @return List<Integer>.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> arrayList = new ArrayList<>();
+        for (int[] arrayInt : list) {
+            for (int ints : arrayInt) {
+                arrayList.add(ints);
+            }
+        }
+        return arrayList;
+    }
 }

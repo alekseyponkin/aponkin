@@ -41,4 +41,12 @@ public class ConvertListTest {
         int[][] expect = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 0, 0}};
         assertThat(result, is(expect));
     }
+
+    @Test
+    public void thenConvertListArrayToList() throws Exception {
+        ConvertList convertList = new ConvertList();
+        List<Integer> result = convertList.convert(Arrays.asList(new int[]{1, 2}, new int[]{3, 4, 5, 6}));
+        List<Integer> expect = Arrays.asList(1, 2, 3, 4, 5, 6);
+        assertThat(result, is(expect));
+    }
 }
