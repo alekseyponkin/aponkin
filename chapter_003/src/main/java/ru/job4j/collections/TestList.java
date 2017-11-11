@@ -23,9 +23,9 @@ public class TestList {
      * @param amount elements count.
      * @return operations time .
      */
-    public long add (Collection<String> collection, int amount) {
+    public long add(Collection<String> collection, int amount) {
         long start = System.currentTimeMillis();
-        for (int i = 0; i < amount ; i++) {
+        for (int i = 0; i < amount; i++) {
             collection.add(Integer.toString(i));
         }
         long end = System.currentTimeMillis();
@@ -38,14 +38,14 @@ public class TestList {
      * @param amount elements count.
      * @return operations time .
      */
-    public long delete (Collection<String> collection, int amount) {
+    public long delete(Collection<String> collection, int amount) {
 
-        for (int i = 0; i < amount ; i++) {
+        for (int i = 0; i < amount; i++) {
             collection.add(Integer.toString(i));
         }
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i < amount ; i++) {
+        for (int i = 0; i < amount; i++) {
             collection.remove(Integer.toString(amount - i));
         }
         long end = System.currentTimeMillis();
