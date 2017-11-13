@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 /**
  * Interface Input.
  *
@@ -19,5 +21,5 @@ public interface Input {
      * @param range key menu.
      * @return int answer user.
      */
-    int ask(String question, int[] range);
+    int ask(String question, ArrayList<Integer> range);
 }

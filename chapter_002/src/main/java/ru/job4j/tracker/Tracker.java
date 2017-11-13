@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 /**
  * Class Tracker.
  *
@@ -9,25 +11,17 @@ package ru.job4j.tracker;
  */
 public class Tracker {
     /**
-     * Arrays for items.
+     * ArrayList for items.
      */
-    private Item[] items = new Item[100];
-    /**
-     * Count items added.
-     */
-    private int positionItem = 0;
+    private ArrayList<Item> items = new ArrayList<>();
 
     /**
      * Add item.
      * @param item to be added.
-     * @return added item.
      */
-    public Item add(Item item) {
-        Item result;
-        this.items[this.positionItem] = item;
-        result =  this.items[positionItem];
-        this.positionItem++;
-        return result;
+    public void add(Item item) {
+        this.items.add(item);
+
     }
 
     /**
@@ -36,7 +30,7 @@ public class Tracker {
      */
     public void update(Item item) {
         for (Item itemTemp: this.items) {
-            if (itemTemp != null && item.getIdItem().equals(itemTemp.getIdItem())) {
+            if (item.getIdItem().equals(itemTemp.getIdItem())) {
                 itemTemp.setNameItem(item.getNameItem());
                 itemTemp.setDescriptionItem(item.getDescriptionItem());
                 itemTemp.setDateItem(item.getDateItem());
@@ -50,45 +44,27 @@ public class Tracker {
      * @param item to be deleted.
      */
     public void delete(Item item) {
-        int position = this.positionItem;
-        for (int i = 0; i < position; i++) {
-            if (this.items[i] != null && this.items[i].getIdItem().equals(item.getIdItem())) {
-                System.arraycopy(this.items, i + 1, this.items, i, position - i);
-            }
-        }
-        this.positionItem--;
+        this.items.remove(item);
     }
 
     /**
      * Find all items.
-     * @return array added items.
+     * @return ArrayList added items.
      */
-    public Item[] findAll() {
-        Item[] result = new Item[this.positionItem];
-        for (int i = 0; i < this.positionItem; i++) {
-            result[i] = this.items[i];
-        }
-        return result;
+    public ArrayList<Item> findAll() {
+        return this.items;
     }
 
     /**
      * Find all items with the specified name.
      * @param key name items.
-     * @return array found items with the name.
+     * @return ArrayList found items with the name.
      */
-    public Item[] findByName(String key) {
-        int sizeArray = 0;
-        int indexArrey = 0;
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> result = new ArrayList<>();
         for (Item item: this.items) {
-            if (item != null && item.getNameItem().equals(key)) {
-                sizeArray++;
-            }
-        }
-        Item[] result = new Item[sizeArray];
-        for (int i = 0; i < this.positionItem; i++) {
-            if (this.items[i].getNameItem().equals(key)) {
-                result[indexArrey] = this.items[i];
-                indexArrey++;
+            if (item.getNameItem().equals(key)) {
+                result.add(item);
             }
         }
         return result;
@@ -102,7 +78,7 @@ public class Tracker {
     public Item findById(String id) {
         Item result = null;
         for (Item item: this.items) {
-            if (item != null && item.getIdItem().equals(id)) {
+            if (item.getIdItem().equals(id)) {
                 result = item;
                 break;
             }

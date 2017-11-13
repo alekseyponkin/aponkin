@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,7 @@ public class ConsoleInput implements Input {
      * @return int answer user.
      */
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, ArrayList<Integer> range) {
         int key = Integer.valueOf(this.ask(question));
         boolean exit = false;
         for (int value : range) {

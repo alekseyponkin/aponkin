@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -20,9 +23,9 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerVerifyName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("0", "test name", "desc", "y")));
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getNameItem(), is("test name"));
+        assertThat(tracker.findAll().get(0).getNameItem(), is("test name"));
     }
 
     /**
@@ -32,9 +35,9 @@ public class StubInputTest {
     public void whenUserUpdateThenVerifyNewName() {
         Tracker tracker = new Tracker();
         tracker.add(new Item("test name", "desc"));
-        Input input = new StubInput(new String[]{"2", tracker.findAll()[0].getIdItem(), "new name", "new desc", "y"});
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("2", tracker.findAll().get(0).getIdItem(), "new name", "new desc", "y")));
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getNameItem(), is("new name"));
+        assertThat(tracker.findAll().get(0).getNameItem(), is("new name"));
     }
 
     /**
@@ -44,8 +47,8 @@ public class StubInputTest {
     public void whenUserDeleteThenFindItem() {
         Tracker tracker = new Tracker();
         tracker.add(new Item("test name", "desc"));
-        Input input = new StubInput(new String[]{"3", tracker.findAll()[0].getIdItem(), "y"});
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", tracker.findAll().get(0).getIdItem(), "y")));
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll().length, is(0));
+        assertThat(tracker.findAll().size(), is(0));
     }
 }

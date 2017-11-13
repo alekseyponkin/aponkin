@@ -1,9 +1,10 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Class .
+ * Class Item.
  *
  * @author Ponkin Aleksey
  * @version 1.0.0
@@ -27,9 +28,9 @@ public class Item {
      */
     private long dateItem;
     /**
-     * Array comments item.
+     * ArrayList comments item.
      */
-    private String[] listCommentsItem;
+    private ArrayList<String> listCommentsItem;
     /**
      * Random number for calculate Id item.
      */
@@ -76,9 +77,9 @@ public class Item {
     }
 
     /**
-     * @param listCommentsItem array comments item.
+     * @param listCommentsItem ArrayList comments item.
      */
-    public void setListCommentsItem(String[] listCommentsItem) {
+    public void setListCommentsItem(ArrayList<String> listCommentsItem) {
         this.listCommentsItem = listCommentsItem;
     }
 
@@ -111,9 +112,9 @@ public class Item {
     }
 
     /**
-     * @return array comments items.
+     * @return ArrayList comments items.
      */
-    public String[] getListCommentsItem() {
+    public ArrayList<String> getListCommentsItem() {
         return this.listCommentsItem;
     }
 }

@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 /**
  * Class StabInput.
  *
@@ -9,9 +11,9 @@ package ru.job4j.tracker;
  */
 public class StubInput implements Input {
     /**
-     * Arrays answers.
+     * ArrayList answers.
      */
-    private String[] answers;
+    private ArrayList<String> answers;
     /**
      * Index position.
      */
@@ -21,7 +23,7 @@ public class StubInput implements Input {
      * Constructor StubInput.
      * @param answers to simulate user input.
      */
-    public StubInput(String[] answers) {
+    public StubInput(ArrayList<String> answers) {
         this.answers = answers;
     }
 
@@ -31,7 +33,7 @@ public class StubInput implements Input {
      */
     @Override
     public String ask(String question) {
-        return answers[position++];
+        return answers.get(position++);
     }
 
     /**
@@ -41,7 +43,7 @@ public class StubInput implements Input {
      * @return int.
      */
     @Override
-    public int ask(String question, int[] range) {
-        return Integer.valueOf(answers[position++]);
+    public int ask(String question, ArrayList<Integer> range) {
+        return Integer.valueOf(answers.get(position++));
     }
 }
