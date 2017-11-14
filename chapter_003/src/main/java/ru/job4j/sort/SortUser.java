@@ -29,15 +29,7 @@ public class SortUser {
         list.sort(new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                int o1Lengt = o1.name.length();
-                int o2Lengt = o2.name.length();
-                int result = 1;
-                if (o1Lengt == o2Lengt) {
-                    result = 0;
-                } else if (o1Lengt < o2Lengt) {
-                    result = -1;
-                }
-                return result;
+                return o1.name.length() -  o2.name.length();
             }
         });
         return new ArrayList<>(list);
