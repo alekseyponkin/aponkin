@@ -19,10 +19,6 @@ public class IteratorSimpleNumber implements Iterator {
      * Iterator index.
      */
     private int index = 0;
-    /**
-     * Length array.
-     */
-    private int lengthArray;
 
     /**
      * Constructor IteratorSimpleNumber.
@@ -30,21 +26,32 @@ public class IteratorSimpleNumber implements Iterator {
      */
     public IteratorSimpleNumber(final int[] numbers) {
         this.array = numbers;
-        this.lengthArray = array.length;
     }
 
     @Override
     public boolean hasNext() {
         boolean result = false;
-        if (getSimpleNumber(false) != null) {
-            result = true;
+        for (int i = this.index; i < array.length; i++) {
+            int intArray = array[i];
+            if (checkNumber(intArray)) {
+                result = true;
+                break;
+            }
         }
         return result;
     }
 
     @Override
     public Object next() {
-        Integer result = getSimpleNumber(true);
+        Integer result = null;
+        for (; this.index < array.length; this.index++) {
+            Integer intArray = array[this.index];
+            if (checkNumber(intArray)) {
+                result = intArray;
+                this.index++;
+                break;
+            }
+        }
         if (result == null) {
             throw new NoSuchElementException();
         }
@@ -52,34 +59,20 @@ public class IteratorSimpleNumber implements Iterator {
     }
 
     /**
-     * Get simple number.
-     * @param writeIndex true if Next, false if hasNext.
-     * @return simple number or null - if no any simple numbers.
+     * Check number simple or not.
+     * @param number for check.
+     * @return true if number is simple.
      */
-    private Integer getSimpleNumber(boolean writeIndex) {
-        Integer result = null;
-        int indexTemp = this.index;
-        for (int i = indexTemp; i < lengthArray; i++) {
-            int intArray = array[indexTemp];
-            Boolean isSimple = true;
-            if (intArray <= 1) {
-                isSimple = false;
-            }
-            for (int j = 2; j <= intArray / 2; j++) {
-                if (intArray % j == 0) {
-                    isSimple = false;
-                    break;
-                }
-            }
-            if (isSimple) {
-                result = intArray;
-                indexTemp++;
+    private boolean checkNumber(int number) {
+        boolean result = true;
+        if (number <= 1) {
+            result = false;
+        }
+        for (int j = 2; j <= number / 2; j++) {
+            if (number % j == 0) {
+                result = false;
                 break;
             }
-            indexTemp++;
-        }
-        if (writeIndex) {
-            this.index = indexTemp;
         }
         return result;
     }
