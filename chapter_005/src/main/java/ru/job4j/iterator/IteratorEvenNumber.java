@@ -19,10 +19,6 @@ public class IteratorEvenNumber implements Iterator {
      * Iterator index.
      */
     private int index = 0;
-    /**
-     * Length array.
-     */
-    private int lengthArray;
 
     /**
      * Constructor IteratorEvenNumber.
@@ -30,45 +26,32 @@ public class IteratorEvenNumber implements Iterator {
      */
     public IteratorEvenNumber(int[] array) {
         this.array = array;
-        this.lengthArray = array.length;
     }
 
     @Override
     public boolean hasNext() {
         boolean result = false;
-        if (getEvenNumber(false) != null) {
-            result = true;
+        for (int i = this.index; i < array.length; i++) {
+            if (array[i] % 2 == 0) {
+                result = true;
+                break;
+            }
         }
         return result;
     }
 
     @Override
     public Object next() {
-        Integer result = getEvenNumber(true);
-        if (result == null) {
-            throw new NoSuchElementException();
-        }
-        return result;
-    }
-
-    /**
-     * Get even number.
-     * @param writeIndex true if Next, false if hasNext.
-     * @return even number or null - if no any even numbers.
-     */
-    private Integer getEvenNumber(boolean writeIndex) {
         Integer result = null;
-        int indexTemp = this.index;
-        for (int i = indexTemp; i < lengthArray; i++) {
-            if (array[i] % 2 == 0) {
-                result = array[i];
-                indexTemp++;
+        for (; this.index < array.length; this.index++) {
+            if (array[this.index] % 2 == 0) {
+                result = array[this.index];
+                this.index++;
                 break;
             }
-            indexTemp++;
         }
-        if (writeIndex) {
-            this.index = indexTemp;
+        if (result == null) {
+            throw new NoSuchElementException();
         }
         return result;
     }
