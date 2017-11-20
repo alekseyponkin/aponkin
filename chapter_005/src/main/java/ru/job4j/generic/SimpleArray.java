@@ -3,21 +3,21 @@ package ru.job4j.generic;
 import java.util.Arrays;
 
 /**
- * Class SimpleList.
+ * Class SimpleArray.
  *
  * @author Ponkin Aleksey
  * @version 1.0.0
  * @since 20.11.2017
  */
-public class SimpleList<T> {
-    Object[] objects;
-    int index = 0;
+public class SimpleArray<T> {
+    private Object[] objects;
+    private int index = 0;
 
     /**
-     * Constructor SimpleList.
+     * Constructor SimpleArray.
      * @param size arrays size.
      */
-    public SimpleList(int size) {
+    public SimpleArray(int size) {
         this.objects = new Object[size];
     }
 
@@ -62,5 +62,13 @@ public class SimpleList<T> {
      */
     public T get(int positon) {
         return (T) this.objects[positon];
+    }
+
+    /**
+     * Get size SimpleArray.
+     * @return int size.
+     */
+    public int size() {
+        return this.objects.length;
     }
 }
