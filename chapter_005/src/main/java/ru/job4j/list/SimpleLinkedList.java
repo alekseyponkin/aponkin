@@ -48,6 +48,40 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
         return temp.item;
     }
 
+    /**
+     * Remove first element in store.
+     * @return value removed element.
+     */
+    public E removeFirst() {
+        Node<E> tempFirst = first;
+        if (index > 1) {
+            first = tempFirst.next;
+            first.prev = null;
+        } else {
+            first = null;
+            last = null;
+        }
+        index--;
+        return tempFirst.item;
+    }
+
+    /**
+     * Remove last element in store.
+     * @return value removed element.
+     */
+    public E removeLast() {
+        Node<E> templast = last;
+        if (index > 1) {
+            last = last.prev;
+            last.next = null;
+        } else {
+            first = null;
+            last = null;
+        }
+        index--;
+        return templast.item;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
