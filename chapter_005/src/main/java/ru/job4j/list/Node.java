@@ -35,7 +35,7 @@ public class Node<T> {
         Node<T> turtle = first;
         Node<T> hare = first.next;
         boolean result = false;
-        while(turtle != null && hare.next != null) {
+        while (turtle != null && hare.next != null) {
             if (turtle == hare) {
                 result = true;
                 break;
