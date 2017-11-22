@@ -88,18 +88,15 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
             int indexIterator = 0;
             @Override
             public boolean hasNext() {
-                return indexIterator < index ? true : false;
+                return indexIterator < index;
             }
 
             @Override
             public E next() {
-                E result;
-                if (hasNext()) {
-                    result = get(indexIterator++);
-                } else {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return result;
+                return get(indexIterator++);
             }
         };
     }
@@ -115,9 +112,9 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
 
         /**
          * Constructor Node.
-         * @param prev
-         * @param element
-         * @param next
+         * @param prev previous node.
+         * @param element value element.
+         * @param next next node.
          */
         Node(SimpleLinkedList.Node<E> prev, E element, SimpleLinkedList.Node<E> next) {
             this.item = element;
