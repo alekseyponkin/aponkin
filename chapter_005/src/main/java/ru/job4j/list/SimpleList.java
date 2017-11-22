@@ -51,18 +51,15 @@ public class SimpleList<E> implements SimpleContainer<E> {
             int indexIterator = 0;
             @Override
             public boolean hasNext() {
-                return indexIterator < index ? true : false;
+                return indexIterator < index;
             }
 
             @Override
             public E next() {
-                E result;
-                if (indexIterator < index) {
-                    result = (E) list[indexIterator++];
-                } else {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return result;
+                return (E) list[indexIterator++];
             }
         };
     }
