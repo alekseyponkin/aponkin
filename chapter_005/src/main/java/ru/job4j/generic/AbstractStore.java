@@ -11,7 +11,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
     /**
      * Store for save Base.
      */
-    SimpleArray<Base> simpleArray;
+    SimpleArray<T> simpleArray;
 
     /**
      * Constructor AbstractStore.

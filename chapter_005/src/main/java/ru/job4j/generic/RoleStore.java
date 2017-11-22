@@ -7,7 +7,7 @@ package ru.job4j.generic;
  * @version 1.0.0
  * @since 20.11.2017
  */
-public class RoleStore extends AbstractStore {
+public class RoleStore extends AbstractStore<Role> {
     /**
      * Constructor RoleStore.
      * @param size size store for Roles.
