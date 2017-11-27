@@ -29,14 +29,26 @@ public class SimpleSetOnLinkedList<E> implements Iterable<E> {
      * @param e value element.
      */
     public void add(E e) {
-        for (E value : this.set) {
-            if (value.equals(e)) {
-                return;
-            }
-        }
-        this.set.add(e);
+       if (!contains(e)) {
+           this.set.add(e);
+       }
     }
 
+    /**
+     * Search element in store.
+     * @param e element for searching.
+     * @return true if element were found.
+     */
+    public boolean contains(E e) {
+        boolean result = false;
+        for (E value : this.set) {
+            if (value.equals(e)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
     @Override
     public Iterator<E> iterator() {
         return this.set.iterator();
