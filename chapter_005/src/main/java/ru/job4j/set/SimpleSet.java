@@ -24,18 +24,38 @@ public class SimpleSet<E> implements Iterable<E> {
 
     /**
      * Add new element in store.
-     * @param e value element.f
+     * @param e value element.
      */
     public void add(E e) {
+        grow();
+        if (!contains(e)) {
+            this.set[index++] = e;
+        }
+    }
+
+    /**
+     * Search element in store.
+     * @param e element for searching.
+     * @return true if element were found.
+     */
+    public boolean contains(E e) {
+        boolean result = false;
+        for (int i = 0; i < this.index; i++) {
+            if (this.set[i].equals(e)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Increase size store .
+     */
+    private void grow() {
         if (this.set.length == this.index) {
             this.set = Arrays.copyOf(this.set, this.set.length * 2);
         }
-        for (int i = 0; i < this.index; i++) {
-            if (this.set[i].equals(e)) {
-                return;
-            }
-        }
-        this.set[index++] = e;
     }
 
     @Override
