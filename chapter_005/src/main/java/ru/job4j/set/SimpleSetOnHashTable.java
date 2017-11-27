@@ -34,7 +34,7 @@ public class SimpleSetOnHashTable<E> implements Iterable<E> {
      */
     public boolean add(E e) {
         boolean result = false;
-        int positionAdd = Math.abs(e.hashCode()) % this.size;
+        int positionAdd = getPositionHash(e);
         if (this.hashTable[positionAdd] == null) {
             this.hashTable[positionAdd] = e;
             result = true;
@@ -44,16 +44,15 @@ public class SimpleSetOnHashTable<E> implements Iterable<E> {
 
     /**
      * Search element in store.
-      @param e element for searching.
+     * @param e element for searching.
      * @return true if element were found.
      */
     public boolean contains(E e) {
         boolean result = false;
-        for (Object o : this.hashTable) {
-            if (o != null && o.equals(e)) {
+        E element = (E) this.hashTable[getPositionHash(e)];
+            if (element != null && element.equals(e)) {
                 result = true;
             }
-        }
         return result;
     }
 
@@ -64,11 +63,9 @@ public class SimpleSetOnHashTable<E> implements Iterable<E> {
      */
     public boolean remove(E e) {
         boolean result = false;
-        for (int i = 0; i < this.hashTable.length; i++) {
-            if (e.equals((E) hashTable[i])) {
-                this.hashTable[i] = null;
-                result = true;
-            }
+        if (contains(e)) {
+            this.hashTable[getPositionHash(e)] = null;
+            result = true;
         }
         return result;
     }
@@ -85,6 +82,15 @@ public class SimpleSetOnHashTable<E> implements Iterable<E> {
         }
         this.hashTable =  newHashTable.toArray();
         this.size = hashTable.length;
+    }
+
+    /**
+     * Get position element Hash.
+     * @param e element.
+     * @return index position in hashTable
+     */
+    private int getPositionHash(E e) {
+        return Math.abs(e.hashCode()) % this.size;
     }
 
     /**
