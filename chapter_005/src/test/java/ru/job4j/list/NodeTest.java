@@ -56,7 +56,6 @@ public class NodeTest {
         Node<Integer> four = new Node<>(7);
         first.next = two;
         two.next = third;
-        third.next = four;
         assertFalse(first.hasCycle(first));
     }
 }
