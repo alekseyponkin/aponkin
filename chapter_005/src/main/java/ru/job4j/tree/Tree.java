@@ -1,6 +1,5 @@
 package ru.job4j.tree;
 
-
 import java.util.*;
 
 /**
@@ -139,20 +138,19 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         };
     }
 
-
     /**
      * Inner class Node.
      * @param <E> value.
      */
-    public class Node<E> {
+    private class Node<E> {
         /**
          * List children.
          */
-        public List<Node<E>> children;
+        private List<Node<E>> children;
         /**
          * Value.
          */
-        public E value;
+        private E value;
 
         /**
          * Constructor class Node.
@@ -165,8 +163,12 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             Node<E> node = (Node<E>) o;
             return value != null ? value.equals(node.value) : node.value == null;
         }
