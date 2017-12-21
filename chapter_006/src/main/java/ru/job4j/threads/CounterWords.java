@@ -23,7 +23,7 @@ public class CounterWords implements Runnable {
 
     @Override
     public void run() {
-            System.out.println("Tread count word.");
+            System.out.println("Tread count word is started.");
             int countWord = 0;
             for (int i = 0; i < text.length(); i++) {
                 if (text.charAt(i) != ' ') {
@@ -40,7 +40,7 @@ public class CounterWords implements Runnable {
         String text = "Test  simple   text where 9 word end 11 space";
         Thread threadCountWords = new Thread(new CounterWords(text));
         Thread threadCountSpace = new Thread(() -> {
-            System.out.println("Tread count space.");
+            System.out.println("Tread count space is started.");
             int countSpace = 0;
             for (int i = 0; i < text.length(); i++) {
                 if (text.charAt(i) == ' ') {
@@ -54,7 +54,15 @@ public class CounterWords implements Runnable {
             }
             System.out.println("Space : " + countSpace);
         });
+        System.out.println("Program to counting the words and spaces.");
         threadCountSpace.start();
         threadCountWords.start();
+        try {
+            threadCountWords.join();
+            threadCountSpace.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("End program.");
     }
 }
