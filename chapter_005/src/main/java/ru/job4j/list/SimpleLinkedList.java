@@ -1,5 +1,8 @@
 package ru.job4j.list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -10,24 +13,28 @@ import java.util.NoSuchElementException;
  * @version 1.0.0
  * @since 21.11.2017
  */
+@ThreadSafe
 public class SimpleLinkedList<E> implements SimpleContainer<E> {
     /**
      * Link on first element.
      */
+    @GuardedBy("this")
     Node<E> first;
 
     /**
      * Link on last element.
      */
+    @GuardedBy("this")
     Node<E> last;
 
     /**
      * Index current.
      */
+    @GuardedBy("this")
     private int index = 0;
 
     @Override
-    public void add(E value) {
+    public synchronized void add(E value) {
         Node<E> tempLast = this.last;
         Node<E> newNode = new Node<>(tempLast, value, null);
         this.last = newNode;
@@ -40,7 +47,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
     }
 
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         Node<E> temp = first;
         for (int i = 0; i < index; i++) {
             temp = temp.next;
@@ -52,7 +59,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * Remove first element in store.
      * @return value removed element.
      */
-    public E removeFirst() {
+    public synchronized E removeFirst() {
         Node<E> tempFirst = first;
         if (index > 1) {
             first = tempFirst.next;
@@ -69,7 +76,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * Remove last element in store.
      * @return value removed element.
      */
-    public E removeLast() {
+    public synchronized E removeLast() {
         Node<E> templast = last;
         if (index > 1) {
             last = last.prev;
@@ -87,12 +94,12 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
         return new Iterator<E>() {
             int indexIterator = 0;
             @Override
-            public boolean hasNext() {
+            public synchronized boolean hasNext() {
                 return indexIterator < index;
             }
 
             @Override
-            public E next() {
+            public synchronized E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }

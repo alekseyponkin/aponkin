@@ -1,8 +1,9 @@
 package ru.job4j.list;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.*;
 
 /**
  * Class SimpleList.
@@ -11,27 +12,31 @@ import java.util.NoSuchElementException;
  * @version 1.0.0
  * @since 21.11.2017
  */
+@ThreadSafe
 public class SimpleList<E> implements SimpleContainer<E> {
     /**
      * Store for elements.
      */
+    @GuardedBy("this")
     private Object[] list;
 
     /**
      * Index current
      */
+    @GuardedBy("this")
     private int index = 0;
 
     /**
      * Constructor SimpleList.
      * @param size list size.
      */
+
     public SimpleList(int size) {
         this.list = new Object[size];
     }
 
     @Override
-    public void add(E e) {
+    public synchronized void add(E e) {
         if (list.length == index) {
             this.list = Arrays.copyOf(this.list, this.list.length * 2);
             this.list[index++] = e;
@@ -41,7 +46,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
     }
 
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         return (E) list[index];
     }
 
@@ -51,7 +56,9 @@ public class SimpleList<E> implements SimpleContainer<E> {
             int indexIterator = 0;
             @Override
             public boolean hasNext() {
-                return indexIterator < index;
+                synchronized (this) {
+                    return indexIterator < index;
+                }
             }
 
             @Override
@@ -59,7 +66,9 @@ public class SimpleList<E> implements SimpleContainer<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (E) list[indexIterator++];
+                synchronized (this) {
+                    return (E) list[indexIterator++];
+                }
             }
         };
     }
