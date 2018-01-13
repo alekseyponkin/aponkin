@@ -29,10 +29,14 @@ public class ParallelSearch {
      */
     private List<String> exts;
     /**
-     * The list for adding name files from thread.
+     * Flag the end of file search.
+     */
+    private String cap = "End";
+    /**
+     * The queue for adding name files from thread.
      */
     @GuardedBy("this")
-    private List<String> listFiles = new ArrayList<>();
+    private Queue<String> queueFiles = new LinkedList<>();
 
     /**
      * Constructor for class ParallerSaearch.
@@ -52,26 +56,36 @@ public class ParallelSearch {
      */
     public List<String> result() {
         ArrayList<String> result = new ArrayList<>();
-        List<Thread> listThread = new ArrayList<>();
-        findFile(new File(root));
-        synchronized (this) {
-            for (String fileName : listFiles) {
-                Runnable runnable = () -> {
-                    findText(fileName, result);
-                };
-                listThread.add(new Thread(runnable));
+        Thread threadFindFile = new Thread(() -> {
+            findFile(new File(root));
+            synchronized (this) {
+                queueFiles.add("End");
             }
-        }
-            for (Thread thread : listThread) {
-                thread.start();
-            }
-            for (Thread thread : listThread) {
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        });
+        Thread threadFindText = new Thread(() -> {
+            String temp;
+            boolean done = false;
+            while (!done) {
+                synchronized (this) {
+                    if (!queueFiles.isEmpty()) {
+                        temp = queueFiles.poll();
+                        if (temp.equals(cap)) {
+                            done = true;
+                        } else {
+                            findText(temp, result);
+                        }
+                    }
                 }
             }
+        });
+        threadFindFile.start();
+        threadFindText.start();
+        try {
+            threadFindFile.join();
+            threadFindText.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -85,9 +99,7 @@ public class ParallelSearch {
             while (in.hasNext()) {
                 String line = in.nextLine();
                 if (line.contains(this.text)) {
-                    synchronized (this) {
                         list.add(fileName);
-                    }
                     break;
                 }
             }
@@ -99,7 +111,6 @@ public class ParallelSearch {
     /**
      * Find all file in folder end sub folder.
      * @param file root file for search.
-     * @return list found name file.
      */
     private void findFile(File file) {
         if (file.isDirectory()) {
@@ -109,7 +120,7 @@ public class ParallelSearch {
         } else {
             if (checkExt(file)) {
                 synchronized (this) {
-                    listFiles.add(file.getPath());
+                    queueFiles.add(file.getPath());
                 }
             }
         }
