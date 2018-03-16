@@ -40,10 +40,8 @@ public class MapBank {
      * @param account for add.
      */
     public void addAccountToUser(User user, Account account) {
-        if (this.map.containsKey(user)) {
-            List<Account> accountArrayList = this.map.get(user);
-            accountArrayList.add(account);
-        }
+        List<Account> accountArrayList = this.map.get(user);
+        accountArrayList.add(account);
     }
 
     /**
@@ -52,10 +50,8 @@ public class MapBank {
      * @param account for delete.
      */
     public void deleteAccountFromUser(User user, Account account) {
-        if (this.map.containsKey(user)) {
-            List<Account> accountArrayList = this.map.get(user);
-            accountArrayList.remove(account);
-        }
+        List<Account> accountArrayList = this.map.get(user);
+        accountArrayList.remove(account);
     }
 
     /**
@@ -65,9 +61,7 @@ public class MapBank {
      */
     public List<Account> getUserAccount(User user) {
         List<Account> result = new ArrayList<>();
-        if (this.map.containsKey(user)) {
-            result = this.map.get(user);
-        }
+        result = this.map.get(user);
         return result;
     }
 
