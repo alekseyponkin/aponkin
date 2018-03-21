@@ -2,6 +2,7 @@ package ru.job4j.textsearch;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,9 @@ public class ParallelSearchTest {
     public void whenSearchOnePathTxtAndOneFileFound() {
         ParallelSearch parallelSearch  = new ParallelSearch("src/test/java/ru/job4j/textsearch/", "Test words", Arrays.asList("txt"));
         List<String> list = parallelSearch.result();
-        assertEquals("src\\test\\java\\ru\\job4j\\textsearch\\TestFile.txt", list.get(0));
+        String separator = File.separator;
+        String expect = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sTestFile.txt", separator);
+        assertEquals(expect, list.get(0));
     }
 
     /**
@@ -33,7 +36,10 @@ public class ParallelSearchTest {
     public void whenSearchTwoPathTxtJavaAndTwoFileFound() {
         ParallelSearch parallelSearch  = new ParallelSearch("src/test/java/ru/job4j/textsearch/", "Test words", Arrays.asList("java", "txt"));
         List<String> list = parallelSearch.result();
-        assertEquals("src\\test\\java\\ru\\job4j\\textsearch\\ParallelSearchTest.java", list.get(0));
-        assertEquals("src\\test\\java\\ru\\job4j\\textsearch\\TestFile.txt", list.get(1));
+        String separator = File.separator;
+        String expect1 = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sParallelSearchTest.java", separator);
+        String expect2 = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sTestFile.txt", separator);
+        assertEquals(expect1, list.get(0));
+        assertEquals(expect2, list.get(1));
     }
 }
