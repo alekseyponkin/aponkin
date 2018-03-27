@@ -2,7 +2,6 @@ package ru.job4j.concurrency;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class SimpleThreadPool.
@@ -17,24 +16,15 @@ public class SimpleThreadPool {
      */
     private Queue<Runnable> queue = new LinkedBlockingQueue<>();
     /**
-     * The number of working threads.
-     */
-    private AtomicInteger threedJob = new AtomicInteger(0);
-    /**
      * Maximum threads.
      */
     private final int maxThread;
-    /**
-     * Task to be run.
-     */
-    private Runnable runnable;
 
     /**
      * Constructor class SimpleThreadPool.
      */
     public SimpleThreadPool() {
-//        this.maxThread = Runtime.getRuntime().availableProcessors();
-        this.maxThread = 4;
+        this.maxThread = Runtime.getRuntime().availableProcessors();
         for (int i = 0; i < maxThread; i++) {
             new Thread(new Worker()).start();
         }
@@ -42,19 +32,12 @@ public class SimpleThreadPool {
 
     /**
      * Add new work to run.
-     * @param work
+     * @param work for run.
      */
     public void add(Runnable work) {
-        if (threedJob.get() <= maxThread && runnable == null) {
-            synchronized (queue) {
-                this.runnable = work;
-                queue.notifyAll();
-            }
-        } else {
-            this.queue.offer(work);
-            synchronized (queue) {
-                queue.notify();
-            }
+        this.queue.offer(work);
+        synchronized (queue) {
+            queue.notify();
         }
         System.out.println(queue.toString());
     }
@@ -67,17 +50,9 @@ public class SimpleThreadPool {
         public void run() {
             while (true) {
                 waitIfNoWork();
-                threedJob.incrementAndGet();
-                if (runnable != null) {
-                    Runnable tempRunnable;
-                    tempRunnable = runnable;
-                    runnable = null;
-                    tempRunnable.run();
-                }
                 if (!queue.isEmpty()) {
                     queue.poll().run();
                 }
-                threedJob.decrementAndGet();
             }
         }
     }
@@ -87,7 +62,7 @@ public class SimpleThreadPool {
      */
         private void waitIfNoWork() {
             synchronized (queue) {
-                if (runnable == null && queue.isEmpty()) {
+                if (queue.isEmpty()) {
                     try {
                         queue.wait();
                     } catch (InterruptedException e) {
