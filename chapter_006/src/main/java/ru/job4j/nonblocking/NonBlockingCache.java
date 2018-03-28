@@ -46,10 +46,10 @@ public class NonBlockingCache {
     public boolean update(User user) throws OptimisticException {
         Boolean result = false;
         if (this.cache.computeIfPresent(user.getId(), (k, v) -> {
-            user.setVersion(user.getVersion() + 1);
             if (v.getVersion() != user.getVersion()) {
                 throw new OptimisticException();
             }
+            user.setVersion(user.getVersion() + 1);
             return  user;
         }) != null) {
             result = true;
