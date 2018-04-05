@@ -19,15 +19,32 @@ public class SimpleThreadPool {
      * Maximum threads.
      */
     private final int maxThread;
+    /**
+     * Flag stop thread pool.
+     */
+    private boolean stop = false;
 
     /**
      * Constructor class SimpleThreadPool.
      */
     public SimpleThreadPool() {
         this.maxThread = Runtime.getRuntime().availableProcessors();
+    }
+
+    /**
+     * Start job.
+     */
+    public void start() {
         for (int i = 0; i < maxThread; i++) {
             new Thread(new Worker()).start();
         }
+    }
+
+    /**
+     * Stop job.
+     */
+    public void stop() {
+        stop = true;
     }
 
     /**
@@ -48,10 +65,12 @@ public class SimpleThreadPool {
     private class Worker implements Runnable {
         @Override
         public void run() {
-            while (true) {
+            Runnable runnableTemp;
+            while (!stop) {
                 waitIfNoWork();
-                if (!queue.isEmpty()) {
-                    queue.poll().run();
+                runnableTemp = queue.poll();
+                if (runnableTemp != null) {
+                   runnableTemp.run();
                 }
             }
         }
@@ -74,6 +93,7 @@ public class SimpleThreadPool {
 
     public static void main(String[] args) {
         SimpleThreadPool pool = new SimpleThreadPool();
+        pool.start();
         for (int i = 0; i < 7; i++) {
             Runnable runnable = () -> {
                 System.out.println(Thread.currentThread().getName() + " Start");
@@ -94,5 +114,6 @@ public class SimpleThreadPool {
                 e.printStackTrace();
             }
         }
+        pool.stop();
     }
 }
