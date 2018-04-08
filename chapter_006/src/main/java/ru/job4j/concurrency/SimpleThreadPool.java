@@ -1,5 +1,8 @@
 package ru.job4j.concurrency;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -10,11 +13,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @version 1.0.0
  * @since 12.03.2018.
  */
+@ThreadSafe
 public class SimpleThreadPool {
     /**
      * The queue for threads.
      */
-    private Queue<Runnable> queue = new LinkedBlockingQueue<>();
+    @GuardedBy("queue")
+    private final Queue<Runnable> queue = new LinkedBlockingQueue<>();
     /**
      * Maximum threads.
      */
@@ -22,7 +27,7 @@ public class SimpleThreadPool {
     /**
      * Flag stop thread pool.
      */
-    private boolean stop = false;
+    private volatile boolean stop = false;
 
     /**
      * Constructor class SimpleThreadPool.
