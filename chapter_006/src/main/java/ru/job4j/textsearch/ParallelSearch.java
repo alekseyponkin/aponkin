@@ -127,7 +127,7 @@ public class ParallelSearch {
                     for (String ext : exts) {
                         if (path.toString().endsWith(ext)) {
                             synchronized (this) {
-                                files.add(path.toString());
+                                files.add(path.toFile().getCanonicalFile().toString());
                             }
                         }
                     }

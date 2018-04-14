@@ -2,7 +2,9 @@ package ru.job4j.textsearch;
 
 import org.junit.Test;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,11 +23,10 @@ public class ParallelSearchTest {
      * Test when found one file.
      */
     @Test
-    public void whenSearchOnePathTxtAndOneFileFound() {
-        ParallelSearch parallelSearch  = new ParallelSearch("src/test/java/ru/job4j/textsearch/", "Test words", Arrays.asList("txt"));
+    public void whenSearchOnePathTxtAndOneFileFound() throws URISyntaxException, IOException {
+        ParallelSearch parallelSearch  = new ParallelSearch("../chapter_006/target", "Test words", Arrays.asList("txt"));
         List<String> list = parallelSearch.result();
-        String separator = File.separator;
-        String expect = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sTestFile.txt", separator);
+        String expect = Paths.get(ClassLoader.getSystemClassLoader().getResource("TestFile.txt").toURI()).toString();
         assertEquals(expect, list.get(0));
     }
 
@@ -33,12 +34,11 @@ public class ParallelSearchTest {
      * Test when found two files.
      */
     @Test
-    public void whenSearchTwoPathTxtJavaAndTwoFileFound() {
-        ParallelSearch parallelSearch  = new ParallelSearch("src/test/java/ru/job4j/textsearch/", "Test words", Arrays.asList("java", "txt"));
+    public void whenSearchTwoPathTxtJavaAndTwoFileFound() throws URISyntaxException {
+        ParallelSearch parallelSearch  = new ParallelSearch("../chapter_006/target", "Test words", Arrays.asList("java", "txt"));
         List<String> list = parallelSearch.result();
-        String separator = File.separator;
-        String expect1 = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sParallelSearchTest.java", separator);
-        String expect2 = String.format("src%stest%1$sjava%1$sru%1$sjob4j%1$stextsearch%1$sTestFile.txt", separator);
+        String expect1 = Paths.get(ClassLoader.getSystemClassLoader().getResource("Test.java").toURI()).toString();
+        String expect2 = Paths.get(ClassLoader.getSystemClassLoader().getResource("TestFile.txt").toURI()).toString();
         assertEquals(expect1, list.get(0));
         assertEquals(expect2, list.get(1));
     }
