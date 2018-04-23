@@ -6,7 +6,9 @@ import ru.job4j.optimization.xml.EntriesStax;
 import ru.job4j.optimization.xml.ParserJaxb;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * Class Optimization.
@@ -15,7 +17,7 @@ import java.nio.file.Paths;
  * @version 1.0.0
  * @since 04.04.2018.
  */
-public class Optimization {
+public class Optimization implements Serializable {
     /**
      * Database name.
      */
@@ -58,5 +60,35 @@ public class Optimization {
 
     public void setN(int n) {
         this.n = n;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Optimization that = (Optimization) o;
+        return n == that.n
+                && Objects.equals(dbName, that.dbName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(dbName, n);
+    }
+
+    @Override
+    public String toString() {
+        return "Optimization{"
+                + "dbName='"
+                + dbName
+                + '\''
+                + ", n="
+                + n
+                + '}';
     }
 }
