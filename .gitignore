@@ -25,3 +25,7 @@ target
 
 .idea
 *.iml
+
+# SQL_JDBC
+optimization.db
+tracker.db
