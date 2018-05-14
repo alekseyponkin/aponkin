@@ -29,3 +29,4 @@ target
 # SQL_JDBC
 optimization.db
 tracker.db
+parser.db
