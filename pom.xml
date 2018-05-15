@@ -20,7 +20,8 @@
 		<module>chapter_005</module>
 		<module>chapter_006</module>
 		<module>SQL_JDBC</module>
-	</modules>
+        <module>Servlet_JSP</module>
+    </modules>
 	
 	<dependencies>
 		<dependency>
