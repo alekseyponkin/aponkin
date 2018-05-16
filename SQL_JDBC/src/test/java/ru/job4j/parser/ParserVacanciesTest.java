@@ -4,8 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-
 /**
  * Class ParserVacanciesTest.
  *
@@ -19,15 +17,6 @@ public class ParserVacanciesTest {
     @Before
     public void before() {
         parser = new ParserVacancies();
-    }
-
-    /**
-     * Test when parse vacancy then check vacancy in database.
-     */
-    @Test
-    public void whenParseVacancyThenCheckDatabase() {
-        parser.parse();
-        assertTrue(parser.getAllVacancy().size() > 0);
     }
 
     /**
