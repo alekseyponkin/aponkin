@@ -17,7 +17,7 @@ public class ValidateMemoryService {
     /**
      * Single instance ValidateMemoryService.
      */
-    private static ValidateMemoryService ourInstance = new ValidateMemoryService();
+    private final static ValidateMemoryService OUR_INSTANCE = new ValidateMemoryService();
     /**
      * Store users.
      */
@@ -34,7 +34,7 @@ public class ValidateMemoryService {
      * @return single instance.
      */
     public static ValidateMemoryService getInstance() {
-        return ourInstance;
+        return OUR_INSTANCE;
     }
 
     /**
@@ -42,7 +42,7 @@ public class ValidateMemoryService {
      * @param user
      * @return true if successful otherwise false.
      */
-    public synchronized boolean add(User user) {
+    public boolean add(User user) {
         boolean result = true;
         for (User userCheckLoginAndEmail: this.findAll()) {
             if (userCheckLoginAndEmail.getLogin().equals(user.getLogin())
@@ -62,7 +62,7 @@ public class ValidateMemoryService {
      * @param user
      * @return true if successful otherwise false.
      */
-    public synchronized boolean update(User user) {
+    public boolean update(User user) {
         boolean result = false;
         if (this.findById(user.getId()) != null) {
             result = this.store.update(user);
@@ -75,7 +75,7 @@ public class ValidateMemoryService {
      * @param user
      * @return true if successful otherwise false.
      */
-    public synchronized boolean delete(User user) {
+    public boolean delete(User user) {
         boolean result = false;
         if (this.findById(user.getId()) != null) {
             result = this.store.delete(user);

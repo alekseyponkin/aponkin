@@ -20,15 +20,15 @@ public class MemoryStore implements Store<User, Long> {
     /**
      * Sing instance MemoryStore.
      */
-    private static MemoryStore ourInstance = new MemoryStore();
+    private final static MemoryStore OUR_INSTANCE = new MemoryStore();
     /**
      * Store for users.
      */
-    private Map<Long, User> store = new ConcurrentHashMap<>();
+    private final Map<Long, User> store = new ConcurrentHashMap<>();
     /**
      * Initialise variable id;
      */
-    private AtomicLong id = new AtomicLong(0);
+    private final AtomicLong id = new AtomicLong(0);
 
     /**
      * Closed constructor.
@@ -41,7 +41,7 @@ public class MemoryStore implements Store<User, Long> {
      * @return single instance.
      */
     public static MemoryStore getInstance() {
-        return ourInstance;
+        return OUR_INSTANCE;
     }
 
     /**

@@ -66,7 +66,7 @@ public class UserServlet extends HttpServlet {
     /**
      * Initialisation dispatch action.
      */
-    public void initDispatchAction() {
+    private void initDispatchAction() {
         this.dispatchAction.put("add", this.addUser());
         this.dispatchAction.put("update", this.updateUser());
         this.dispatchAction.put("delete", this.deleteUser());
@@ -76,7 +76,7 @@ public class UserServlet extends HttpServlet {
      * Action add user.
      * @return action.
      */
-    public Function<User, Boolean> addUser() {
+    private Function<User, Boolean> addUser() {
         return this.validate::add;
     }
     /**
