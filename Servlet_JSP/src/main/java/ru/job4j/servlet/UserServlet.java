@@ -48,19 +48,27 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter pw = resp.getWriter();
+        String action = req.getParameter("action");
         String id = req.getParameter("id");
-        String aciton = req.getParameter("action");
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
-        if (!name.equals("") && !login.equals("") && !email.equals("")) {
-            User user = new User(name, login, email);
-            if (!id.equals("")) {
-                user.setId(Long.parseLong(id));
-            }
-            this.dispatchAction.get(aciton).apply(user);
+        User user = new User();
+        if (id != null) {
+            user.setId(Long.parseLong(id));
         }
-        doGet(req, resp);
+        if (action.equals("delete")) {
+            System.out.println(user);
+            this.dispatchAction.get(action).apply(user);
+        } else {
+            if (!name.equals("") && !login.equals("") && !email.equals("")) {
+                user.setName(name);
+                user.setLogin(login);
+                user.setEmail(email);
+                this.dispatchAction.get(action).apply(user);
+            }
+        }
+        resp.sendRedirect(req.getContextPath() + "/list");
     }
 
     /**

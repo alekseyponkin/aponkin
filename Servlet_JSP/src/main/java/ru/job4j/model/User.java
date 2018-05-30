@@ -33,6 +33,12 @@ public class User {
     private LocalDateTime createDate;
 
     /**
+     * Default constructor.
+     */
+    public User() {
+    }
+
+    /**
      * Constructor User with name, login, email.
      * @param name user.
      * @param login user.
