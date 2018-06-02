@@ -68,7 +68,7 @@ public class UserServlet extends HttpServlet {
                 this.dispatchAction.get(action).apply(user);
             }
         }
-        resp.sendRedirect(req.getContextPath() + "/list");
+        resp.sendRedirect(req.getContextPath() + "/jsp/list");
     }
 
     /**
