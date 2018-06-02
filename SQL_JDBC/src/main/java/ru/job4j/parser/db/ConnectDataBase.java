@@ -69,13 +69,6 @@ public class ConnectDataBase {
             connection = DriverManager.getConnection(url, name, password);
             logger.debug("Connection is established");
         } catch (SQLException e) {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                logger.error("Connection close failed.", ex);
-            }
             logger.error("Can't create connection", e);
         }
         return connection;

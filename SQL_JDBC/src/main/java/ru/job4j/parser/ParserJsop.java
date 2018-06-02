@@ -38,11 +38,6 @@ public class ParserJsop {
      */
     public List<Vacancy> start(String url, LocalDateTime date) {
         List<Vacancy> listVacancy = new ArrayList<>();
-        String nameVacancy;
-        String textVacancy;
-        String authorVacancy;
-        String urlVacancy;
-        LocalDateTime dateVacancy;
         boolean work = true;
         int i = 1;
         try {
@@ -52,16 +47,16 @@ public class ParserJsop {
                 Elements elements = document.getElementsByAttributeValue("class", "forumTable").select("tr");
                 for (Element element : elements) {
                     if (verifyVacancy(element.getElementsByAttributeValue("class", "postslisttopic").text())) {
-                        dateVacancy = parseDate(element.child(5).text());
+                        LocalDateTime dateVacancy = parseDate(element.child(5).text());
                         if (dateVacancy == null || date.isAfter(dateVacancy)) {
                             work = false;
                             break;
                         }
-                        nameVacancy = element.getElementsByAttributeValue("class", "postslisttopic").first().child(0).text();
-                        authorVacancy = element.child(2).text();
-                        urlVacancy = element.getElementsByAttributeValue("class", "postslisttopic").first().child(0).attr("href");
+                        String nameVacancy = element.getElementsByAttributeValue("class", "postslisttopic").first().child(0).text();
+                        String authorVacancy = element.child(2).text();
+                        String urlVacancy = element.getElementsByAttributeValue("class", "postslisttopic").first().child(0).attr("href");
                         Document documentVacancy = Jsoup.connect(urlVacancy).get();
-                        textVacancy = documentVacancy.getElementsByAttributeValue("class", "msgBody").get(1).text();
+                        String textVacancy = documentVacancy.getElementsByAttributeValue("class", "msgBody").get(1).text();
 
                         listVacancy.add(new Vacancy(nameVacancy, textVacancy, authorVacancy, urlVacancy, dateVacancy));
                     }
