@@ -58,7 +58,6 @@ public class UserServlet extends HttpServlet {
             user.setId(Long.parseLong(id));
         }
         if (action.equals("delete")) {
-            System.out.println(user);
             this.dispatchAction.get(action).apply(user);
         } else {
             if (!name.equals("") && !login.equals("") && !email.equals("")) {

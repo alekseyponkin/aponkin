@@ -1,6 +1,6 @@
 package ru.job4j.validate;
 
-import ru.job4j.dao.MemoryStore;
+import ru.job4j.dao.DBStore;
 import ru.job4j.dao.Store;
 import ru.job4j.model.User;
 
@@ -21,7 +21,7 @@ public class ValidateMemoryService {
     /**
      * Store users.
      */
-    private final Store<User, Long> store = MemoryStore.getInstance();
+    private final Store<User, Long> store = DBStore.getInstance();
 
     /**
      * Closed constructor.
