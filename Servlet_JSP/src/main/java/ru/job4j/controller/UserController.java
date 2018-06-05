@@ -1,4 +1,4 @@
-package ru.job4j.servlet;
+package ru.job4j.controller;
 
 import ru.job4j.model.User;
 import ru.job4j.validate.ValidateMemoryService;
@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Class UserServlet.
+ * Class UserController.
  *
  * @author Ponkin Aleksey
  * @version 1.0.0
  * @since 18.05.2018.
  */
-public class UserServlet extends HttpServlet {
+public class UserController extends HttpServlet {
     /**
      * Validator.
      */
@@ -37,12 +37,7 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter pw = resp.getWriter();
-        pw.println("<h1> List users </h1>");
-        for (User user : this.validate.findAll()) {
-           pw.println(user + "</br>");
-        }
+        req.getRequestDispatcher("/WEB-INF/view/Users.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,7 +62,7 @@ public class UserServlet extends HttpServlet {
                 this.dispatchAction.get(action).apply(user);
             }
         }
-        resp.sendRedirect(req.getContextPath() + "/jsp/list");
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 
     /**

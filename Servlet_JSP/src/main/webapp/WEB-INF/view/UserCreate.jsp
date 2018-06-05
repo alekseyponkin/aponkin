@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Add user</h1>
-<form action = "<%=request.getContextPath()%>/users" method = "post">
+<form action = "<%=request.getContextPath()%>/" method = "post">
     <p><b>Name</b><br>
         <input type = "hidden" name = "action" value = "add">
         <input type = "text" name = "name"><br>

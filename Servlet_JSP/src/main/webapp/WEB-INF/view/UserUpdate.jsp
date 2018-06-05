@@ -8,7 +8,7 @@
 <body>
 <h1>Update user</h1>
 <%User user = ValidateMemoryService.getInstance().findById(Long.parseLong(request.getParameter("id")));%>
-<form action = "<%=request.getContextPath()%>/users" method = "post">
+<form action = "<%=request.getContextPath()%>/" method = "post">
     <p><b>Name</b><br>
         <input type = "hidden" name = "action" value = "update">
         <input type = "hidden" name = "id" value = "<%=user.getId()%>">

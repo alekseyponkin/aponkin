@@ -19,12 +19,12 @@
         <td> <%=user.getLogin()%></td>
         <td> <%=user.getEmail()%></td>
         <td>
-            <form action = "<%=request.getContextPath()%>/jsp/edit" method = "get">
+            <form action = "<%=request.getContextPath()%>/edit" method = "get">
                 <button name = "id" value = "<%=user.getId()%>">Edit</button>
             </form>
         </td>
         <td>
-            <form action = "<%=request.getContextPath()%>/users" method = "post">
+            <form action = "<%=request.getContextPath()%>/" method = "post">
                 <input type = "hidden" name = "id" value = "<%=user.getId()%>">
                 <button name = "action" value = "delete">Delete</button>
             </form>
@@ -33,7 +33,7 @@
     <% } %>
 </table>
 <form>
-    <button formaction = "<%=request.getContextPath()%>/jsp/create">Add user</button>
+    <button formaction = "<%=request.getContextPath()%>/create">Add user</button>
 </form>
 </body>
 </html>
