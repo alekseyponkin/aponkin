@@ -37,6 +37,7 @@ public class UserController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("users", this.validate.findAll());
         req.getRequestDispatcher("/WEB-INF/view/Users.jsp").forward(req, resp);
     }
 

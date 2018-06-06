@@ -11,7 +11,7 @@
         <res-auth>Container</res-auth>
     </resource-ref>
 
-    <!--Servlet-->
+    <!--Controller-->
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>ru.job4j.controller.UserController</servlet-class>
@@ -22,17 +22,8 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlet.UserCreateServlet</servlet-class>
+        <servlet-class>ru.job4j.controller.UserCreateController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
@@ -41,13 +32,14 @@
 
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlet.UserUpdateServlet</servlet-class>
+        <servlet-class>ru.job4j.controller.UserUpdateController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>
         <url-pattern>/edit</url-pattern>
     </servlet-mapping>
 
+    <!--Servlet-->
     <servlet>
         <servlet-name>UsersServlet</servlet-name>
         <servlet-class>ru.job4j.servlet.UsersServlet</servlet-class>
@@ -57,32 +49,13 @@
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
 
-    <!--JSP Pages-->
     <servlet>
-        <servlet-name>UsersJSP</servlet-name>
-        <jsp-file>/Users.jsp</jsp-file>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UsersJSP</servlet-name>
-        <url-pattern>/jsp/list</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UserCreateJSP</servlet-name>
-        <jsp-file>/jsp/UserCreate.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserCreateJSP</servlet-name>
-        <url-pattern>/jsp/create</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UserUpdateJSP</servlet-name>
-        <jsp-file>/WEB-INF/view/UserUpdate.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserUpdateJSP</servlet-name>
-        <url-pattern>/jsp/edit</url-pattern>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
     </servlet-mapping>
 </web-app>
 
