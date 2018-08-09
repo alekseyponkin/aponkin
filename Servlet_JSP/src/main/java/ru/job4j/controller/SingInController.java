@@ -27,19 +27,22 @@ public class SingInController extends HttpServlet {
         HttpSession session = req.getSession();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if(!login.equals("") && !password.equals("")) {
+        if (!login.equals("") && !password.equals("")) {
             User user = validate.findByLoginPassword(login, password);
-            if(user.getId() != 0) {
+            if (user.getId() != 0) {
                 session.setAttribute("login", user.getLogin());
+                session.setAttribute("name", user.getName());
                 session.setAttribute("role", user.getRole());
-                resp.sendRedirect(req.getContextPath() + "/");
+                session.setAttribute("id", user.getId());
+                resp.sendRedirect(String.format("%s/", req.getContextPath()));
+                return;
             }
         }
-        req.setAttribute("error", "Incorrect username and/or password!");
-        req.getRequestDispatcher("/WEB-INF/view/SingIn.jsp").forward(req, resp);
+        req.setAttribute("error", "Incorrect login and/or password!");
+        doGet(req, resp);
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+          req.getRequestDispatcher("/WEB-INF/view/SingIn.jsp").forward(req, resp);
     }
 }

@@ -115,10 +115,6 @@ public class User {
         this.role = role;
     }
 
-    public long getRoleId() {
-        return this.role.id;
-    }
-
     @Override
     public String toString() {
         return "User{"
