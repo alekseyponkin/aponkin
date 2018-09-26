@@ -23,6 +23,12 @@ public class User {
      * Login user.
      */
     private String login;
+
+    /**
+     * Password user.
+     */
+    private String password;
+
     /**
      * Email user.
      */
@@ -31,7 +37,10 @@ public class User {
      * Date create user.
      */
     private LocalDateTime createDate;
-
+    /**
+     * Role user.
+     */
+    private Role role;
     /**
      * Default constructor.
      */
@@ -74,6 +83,14 @@ public class User {
         this.login = login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -88,6 +105,14 @@ public class User {
 
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

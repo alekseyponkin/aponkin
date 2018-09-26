@@ -1,7 +1,7 @@
 package ru.job4j.validate;
 
 import ru.job4j.dao.DBStore;
-import ru.job4j.dao.Store;
+import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class ValidateMemoryService {
     /**
      * Store users.
      */
-    private final Store<User, Long> store = DBStore.getInstance();
+    private final DBStore store = DBStore.getInstance();
 
     /**
      * Closed constructor.
@@ -39,7 +39,7 @@ public class ValidateMemoryService {
 
     /**
      * Validate and add user in store.
-     * @param user
+     * @param user to add.
      * @return true if successful otherwise false.
      */
     public boolean add(User user) {
@@ -59,7 +59,7 @@ public class ValidateMemoryService {
 
     /**
      * Check that store contains user and update him in store.
-     * @param user
+     * @param user to update.
      * @return true if successful otherwise false.
      */
     public boolean update(User user) {
@@ -72,7 +72,7 @@ public class ValidateMemoryService {
 
     /**
      * Check that the store contains user and delete him from store.
-     * @param user
+     * @param user to delete.
      * @return true if successful otherwise false.
      */
     public boolean delete(User user) {
@@ -98,5 +98,27 @@ public class ValidateMemoryService {
      */
     public User findById(Long id) {
         return this.store.findById(id);
+    }
+
+    /**
+     * Find user by login and password.
+     * @param login user.
+     * @param password user.
+     * @return user found .
+     */
+    public User findByLoginPassword(String login, String password) {
+        User result = new User();
+        if (!login.equals("") || !password.equals("")) {
+            result = this.store.findByLoginPassword(login, password);
+        }
+        return result;
+    }
+
+    /**
+     * Find all roles user.
+     * @return list roles.
+     */
+    public List<Role> findAllRole() {
+        return this.store.findAllRole();
     }
 }

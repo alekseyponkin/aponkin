@@ -12,10 +12,21 @@
         <input type = "text" name = "name"><br>
     <p><b>Login</b><br>
         <input type = "text" name = "login"><br>
+    <p><b>Password</b><br>
+        <input type = "password" name = "password"><br>
     <p><b>Email</b><br>
         <input type = "email" name = "email"><br>
-        <br>
-        <input type = "submit" value = "Add">
+
+    <c:if test="${role.name == 'admin'}">
+    <p><b>Enter role for user</b></p>
+    <select name = "roleName">
+        <c:forEach items="${roles}" var="role">
+                <option value="<c:out value="${role.name}"></c:out>"><c:out value="${role.name}"></c:out></option>
+        </c:forEach>
+    </select>
+    </c:if>
+    <br>
+    <p><input type = "submit" value = "Add"></p>
 </form>
 </body>
 </html>
