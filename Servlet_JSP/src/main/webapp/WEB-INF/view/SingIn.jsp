@@ -11,13 +11,13 @@
         <c:out value="${error}"/>
     </div>
 </c:if>
-<form action = "${pageContext.servletContext.contextPath}/login" method = "post">
-    <input type = "text" name = "login"> <label>Login</label> <br>
+<form action = "${pageContext.servletContext.contextPath}/singin" method = "post">
+    <input type = "text" name = "login" placeholder="Login"> <br>
     <br>
-    <input type = "password" name = "password"> <label>Password</label> <br>
+    <input type = "password" name = "password" placeholder="Password"> <br>
     <br>
     <input type = "submit" value = "Sing in"><br>
 </form>
-<a href = "${pageContext.servletContext.contextPath}/create">Sing up</a>
+<a href = "${pageContext.servletContext.contextPath}/create">Sing Up</a>
 </body>
 </html>
