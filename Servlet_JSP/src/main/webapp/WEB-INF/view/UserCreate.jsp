@@ -17,7 +17,7 @@
     <p><b>Email</b><br>
         <input type = "email" name = "email"><br>
 
-    <c:if test="${role.name == 'admin'}">
+    <c:if test="${registeredUser.role.name == 'admin'}">
     <p><b>Enter role for user</b></p>
     <select name = "roleName">
         <c:forEach items="${roles}" var="role">

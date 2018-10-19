@@ -39,12 +39,12 @@ public class UserController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Role roleUser = (Role) req.getSession().getAttribute("role");
+        User registeredUser = (User) req.getSession().getAttribute("registeredUser");
         List<User> users;
-        if (roleUser.getName().equals("admin")) {
+        if (registeredUser.getRole().getName().equals("admin")) {
             users = this.validate.findAll();
         } else {
-            users = Arrays.asList(this.validate.findById((Long) req.getSession().getAttribute("id")));
+            users = Arrays.asList(this.validate.findById(registeredUser.getId()));
         }
         req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/view/Users.jsp").forward(req, resp);

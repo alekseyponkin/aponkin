@@ -22,11 +22,11 @@
     <p><b>Email</b><br>
     <input type = "email" name = "email" value = "<c:out value="${user.email}"></c:out>"><br>
 
-    <c:if test="${role.name == 'user'}">
+    <c:if test="${registeredUser.role.name == 'user'}">
     <input type = "hidden" name = "roleName" value = "<c:out value="${user.role.name}"></c:out>">
     </c:if>
 
-    <c:if test="${role.name == 'admin'}">
+    <c:if test="${registeredUser.role.name == 'admin'}">
         <p><b>Enter new role for user</b></p>
         <select name = "roleName">
             <c:forEach items="${roles}" var="role">
