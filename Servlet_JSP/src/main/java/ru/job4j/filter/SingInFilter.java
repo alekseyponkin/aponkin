@@ -1,6 +1,5 @@
 package ru.job4j.filter;
 
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +18,7 @@ public class SingInFilter implements Filter {
         HttpSession session = request.getSession();
         if (request.getRequestURI().contains("/singin") || request.getRequestURI().contains("/create")) {
             System.out.println();
-        } else if (session.getAttribute("login") == null) {
+        } else if (session.getAttribute("registeredUser") == null) {
             req.getRequestDispatcher("/WEB-INF/view/SingIn.jsp").forward(req, resp);
         }
         chain.doFilter(req, resp);

@@ -30,10 +30,7 @@ public class SingInController extends HttpServlet {
         if (!login.equals("") && !password.equals("")) {
             User user = validate.findByLoginPassword(login, password);
             if (user.getId() != 0) {
-                session.setAttribute("login", user.getLogin());
-                session.setAttribute("name", user.getName());
-                session.setAttribute("role", user.getRole());
-                session.setAttribute("id", user.getId());
+                session.setAttribute("registeredUser", user);
                 resp.sendRedirect(String.format("%s/", req.getContextPath()));
                 return;
             }
