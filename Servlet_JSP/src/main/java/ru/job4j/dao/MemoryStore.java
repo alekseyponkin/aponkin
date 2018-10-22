@@ -1,5 +1,6 @@
 package ru.job4j.dao;
 
+import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
 import java.time.LocalDateTime;
@@ -103,5 +104,15 @@ public class MemoryStore implements Store<User, Long> {
     @Override
     public User findById(Long id) {
         return this.store.get(id);
+    }
+
+    @Override
+    public User findByLoginPassword(String login, String password) {
+        return null;
+    }
+
+    @Override
+    public List<Role> findAllRole() {
+        return null;
     }
 }

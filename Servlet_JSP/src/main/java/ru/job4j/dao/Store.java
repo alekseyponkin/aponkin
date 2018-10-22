@@ -1,5 +1,8 @@
 package ru.job4j.dao;
 
+import ru.job4j.model.Role;
+import ru.job4j.model.User;
+
 import java.util.List;
 
 /**
@@ -43,4 +46,18 @@ public interface Store<Entity, Key> {
      * @return found Entity by Key, otherwise null.
      */
     Entity findById(Key key);
+
+    /**
+     * Find user by login and password.
+     * @param login user.
+     * @param password user.
+     * @return user found .
+     */
+    User findByLoginPassword(String login, String password);
+
+    /**
+     * Find all roles user.
+     * @return list roles.
+     */
+    List<Role> findAllRole();
 }

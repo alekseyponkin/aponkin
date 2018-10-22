@@ -2,6 +2,7 @@ package ru.job4j.controller;
 
 import ru.job4j.model.User;
 import ru.job4j.validate.ValidateMemoryService;
+import ru.job4j.validate.ValidateService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ public class SingInController extends HttpServlet {
     /**
      * Validator.
      */
-    private final ValidateMemoryService validate = ValidateMemoryService.getInstance();
+    private final ValidateService validate = ValidateMemoryService.getInstance();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
