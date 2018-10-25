@@ -1,5 +1,6 @@
 package ru.job4j.controller;
 
+import ru.job4j.model.Role;
 import ru.job4j.model.User;
 import ru.job4j.validate.ValidateMemoryService;
 
@@ -8,8 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -37,18 +39,26 @@ public class UserController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", this.validate.findAll());
+        User registeredUser = (User) req.getSession().getAttribute("registeredUser");
+        List<User> users;
+        if (registeredUser.getRole().getName().equals("admin")) {
+            users = this.validate.findAll();
+        } else {
+            users = Arrays.asList(this.validate.findById(registeredUser.getId()));
+        }
+        req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/view/Users.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        PrintWriter pw = resp.getWriter();
         String action = req.getParameter("action");
         String id = req.getParameter("id");
         String name = req.getParameter("name");
         String login = req.getParameter("login");
+        String password = req.getParameter("password");
         String email = req.getParameter("email");
+        String roleName = req.getParameter("roleName") == null ? "user" : req.getParameter("roleName");
         User user = new User();
         if (id != null) {
             user.setId(Long.parseLong(id));
@@ -59,7 +69,9 @@ public class UserController extends HttpServlet {
             if (!name.equals("") && !login.equals("") && !email.equals("")) {
                 user.setName(name);
                 user.setLogin(login);
+                user.setPassword(password);
                 user.setEmail(email);
+                user.setRole(new Role(roleName));
                 this.dispatchAction.get(action).apply(user);
             }
         }
@@ -82,6 +94,7 @@ public class UserController extends HttpServlet {
     private Function<User, Boolean> addUser() {
         return this.validate::add;
     }
+
     /**
      * Action update user.
      * @return action.
@@ -89,6 +102,7 @@ public class UserController extends HttpServlet {
     private Function<User, Boolean> updateUser() {
         return this.validate::update;
     }
+
     /**
      * Action delete user.
      * @return action.

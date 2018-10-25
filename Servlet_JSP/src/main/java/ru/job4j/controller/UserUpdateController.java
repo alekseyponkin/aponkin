@@ -26,6 +26,7 @@ public class UserUpdateController extends HttpServlet {
         try {
             Long idUser = Long.parseLong(id);
             req.setAttribute("user", this.validate.findById(idUser));
+            req.setAttribute("roles", this.validate.findAllRole());
             req.getRequestDispatcher("/WEB-INF/view/UserUpdate.jsp").forward(req, resp);
         } catch (NumberFormatException e) {
             resp.sendRedirect(req.getContextPath() + "/");
