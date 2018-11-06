@@ -23,6 +23,7 @@ public class UserCreateController extends HttpServlet {
     private final ValidateService validate = ValidateMemoryService.getInstance();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("roles", this.validate.findAllRole());
         req.getRequestDispatcher("/WEB-INF/view/UserCreate.jsp").forward(req, resp);
     }
 }
