@@ -1,6 +1,6 @@
 package ru.job4j.validate;
 
-import ru.job4j.dao.MemoryStore;
+import ru.job4j.dao.DBStore;
 import ru.job4j.dao.Store;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
@@ -22,7 +22,7 @@ public class ValidateMemoryService implements ValidateService {
     /**
      * Store users.
      */
-    private final Store<User, Long> store = MemoryStore.getInstance();
+    private final Store<User, Long> store = DBStore.getInstance();
 
     /**
      * Closed constructor.
@@ -121,5 +121,21 @@ public class ValidateMemoryService implements ValidateService {
      */
     public List<Role> findAllRole() {
         return this.store.findAllRole();
+    }
+
+    /**
+     * Get all country from database.
+     * @return list country.
+     */
+    public List<String> getAllCountry() {
+        return this.store.getAllCountry();
+    }
+
+    /**
+     * Get all city by country from database.
+     * @return list city.
+     */
+    public List<String> getAllCityByCountry(String country) {
+        return this.store.getAllCityByCountry(country);
     }
 }
