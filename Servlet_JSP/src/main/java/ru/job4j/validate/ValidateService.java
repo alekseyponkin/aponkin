@@ -54,4 +54,16 @@ public interface ValidateService {
      * @return list roles.
      */
     List<Role> findAllRole();
+
+    /**
+     * Get all country from database.
+     * @return list country.
+     */
+    List<String> getAllCountry();
+
+    /**
+     * Get all city by country from database.
+     * @return list city.
+     */
+    List<String> getAllCityByCountry(String country);
 }

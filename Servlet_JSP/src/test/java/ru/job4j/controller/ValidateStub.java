@@ -74,4 +74,14 @@ public class ValidateStub implements ValidateService {
     public List<Role> findAllRole() {
         return null;
     }
+
+    @Override
+    public List<String> getAllCountry() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllCityByCountry(String country) {
+        return null;
+    }
 }

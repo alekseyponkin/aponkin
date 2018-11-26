@@ -42,6 +42,14 @@ public class User {
      */
     private Role role;
     /**
+     * Country user.
+     */
+    private String country;
+    /**
+     * City user
+     */
+    private String city;
+    /**
      * Default constructor.
      */
     public User() {
@@ -52,11 +60,15 @@ public class User {
      * @param name user.
      * @param login user.
      * @param email user.
+     * @param country user.
+     * @param city user.
      */
-    public User(String name, String login, String email) {
+    public User(String name, String login, String email, String country, String city) {
         this.name = name;
         this.login = login;
         this.email = email;
+        this.country = country;
+        this.city = city;
     }
 
     public Long getId() {
@@ -115,15 +127,20 @@ public class User {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{"
-                + "id='" + id + '\''
-                + "name='" + name + '\''
-                + ", login='" + login + '\''
-                + ", email='" + email + '\''
-                + ", createDate=" + createDate
-                + '}';
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override
@@ -138,11 +155,29 @@ public class User {
         return Objects.equals(id, user.id)
                 && Objects.equals(name, user.name)
                 && Objects.equals(login, user.login)
-                && Objects.equals(email, user.email);
+                && Objects.equals(password, user.password)
+                && Objects.equals(email, user.email)
+                && Objects.equals(country, user.country)
+                && Objects.equals(city, user.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email);
+        return Objects.hash(id, name, login, password, email, country, city);
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", login='" + login + '\''
+                + ", password='" + password + '\''
+                + ", email='" + email + '\''
+                + ", createDate=" + createDate
+                + ", role=" + role
+                + ", country='" + country + '\''
+                + ", city='" + city + '\''
+                + '}';
     }
 }
