@@ -100,8 +100,8 @@
         <div class="col offset-md-2">
             <form class="form-horizontal" action = "${pageContext.servletContext.contextPath}/" method="post">
                 <div class="row form-group">
-                <input type = "hidden" name = "action" value = "add">
-                    </div>
+                    <input type = "hidden" name = "action" value = "add">
+                </div>
                 <div class="row form-group">
                     <label class="control-label col-sm-2 col-form-label" for="name">Name:</label>
                     <div class="col-md-6">
@@ -140,19 +140,19 @@
                     <div class="col-md-6">
                         <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" title="Email cannot be empty!">
                     </div>
-                    </div>
+                </div>
 
                 <c:if test="${registeredUser.role.name == 'admin'}">
-                <div class="row form-group">
-                    <label class="control-label col-sm-2 col-form-label" for="role">Enter role for user:</label>
-                    <div class="col-md-6">
-                        <select class="form-control" id = "role" name = "roleName">
-                            <c:forEach items="${roles}" var="role">
-                                <option value="<c:out value="${role.name}"></c:out>"><c:out value="${role.name}"></c:out></option>
-                            </c:forEach>
-                        </select>
+                    <div class="row form-group">
+                        <label class="control-label col-sm-2 col-form-label" for="role">Enter role for user:</label>
+                        <div class="col-md-6">
+                            <select class="form-control" id = "role" name = "roleName">
+                                <c:forEach items="${roles}" var="role">
+                                    <option value="<c:out value="${role.name}"></c:out>"><c:out value="${role.name}"></c:out></option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
-                </div>
                 </c:if>
                 <div class="row form-group">
                     <div class="offset-md-7 ">

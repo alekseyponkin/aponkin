@@ -34,7 +34,7 @@ public class AjaxController extends HttpServlet {
         }
         ObjectMapper objectMapper = new ObjectMapper();
         UserTable userTable = objectMapper.readValue(sb.toString(), UserTable.class);
-        storageUsers.put(userTable.hashCode(),userTable);
+        storageUsers.put(userTable.hashCode(), userTable);
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");

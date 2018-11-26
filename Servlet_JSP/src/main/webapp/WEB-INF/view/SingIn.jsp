@@ -28,11 +28,11 @@
 <div class="container">
     <h1 class="text-center m-5">Sign in with existing account</h1>
     <div class="row justify-content-center">
-            <c:if test="${error != null}">
-                <div class="alert alert-danger col-md-7" role="alert">
-                    <c:out value="${error}"/>
-                </div>
-            </c:if>
+        <c:if test="${error != null}">
+            <div class="alert alert-danger col-md-7" role="alert">
+                <c:out value="${error}"/>
+            </div>
+        </c:if>
     </div>
     <div class="row justify-content-md-center">
         <div class="col-md-7">
@@ -58,8 +58,6 @@
         </div>
     </div>
 </div>
-
-
 </div>
 </body>
 </html>

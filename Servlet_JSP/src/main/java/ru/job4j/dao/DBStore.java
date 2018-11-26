@@ -262,8 +262,8 @@ public class DBStore implements Store<User, Long> {
      * @return list country.
      */
     public List<String> getAllCountry() {
-        List <String> result = new ArrayList<>();
-        try(Connection connection = this.ds.getConnection();
+        List<String> result = new ArrayList<>();
+        try (Connection connection = this.ds.getConnection();
             Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery("SELECT DISTINCT country FROM country_city");
             while (rs.next()) {
@@ -281,8 +281,8 @@ public class DBStore implements Store<User, Long> {
      * @return list city.
      */
     public List<String> getAllCityByCountry(String country) {
-        List <String> result = new ArrayList<>();
-        try(Connection connection = this.ds.getConnection();
+        List<String> result = new ArrayList<>();
+        try (Connection connection = this.ds.getConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT city FROM country_city WHERE country = ?")) {
             ps.setString(1, country);
             ResultSet rs = ps.executeQuery();
