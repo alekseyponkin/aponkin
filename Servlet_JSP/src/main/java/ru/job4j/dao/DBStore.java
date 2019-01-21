@@ -67,15 +67,27 @@ public class DBStore implements Store<User, Long> {
                     + "name VARCHAR(100) NOT NULL UNIQUE)");
             statement.execute("INSERT INTO role_user (name) VALUES ('admin')");
             statement.execute("INSERT INTO role_user (name) VALUES ('user')");
+
             statement.execute("CREATE TABLE IF NOT EXISTS user_web ("
                     + "id SERIAL PRIMARY KEY, "
                     + "name VARCHAR(100) NOT NULL, "
                     + "login VARCHAR(100) NOT NULL, "
                     + "password VARCHAR(100) NOT NULL, "
                     + "email VARCHAR(100) NOT NULL, "
+                    + "country VARCHAR(100) NOT NULL, "
+                    + "city VARCHAR(100) NOT NULL, "
                     + "create_date TIMESTAMP NOT NULL, "
                     + "id_role INTEGER REFERENCES role_user(id) NOT NULL)");
-            statement.execute("INSERT INTO user_web(name, login, password, email, create_date, id_role) VALUES ('Admin', 'Admin', 'Admin', 'Admin@test.com', '" + Timestamp.valueOf(LocalDateTime.now()) + "', '1')");
+            statement.execute("INSERT INTO user_web(name, login, password, country, city, email, create_date, id_role) VALUES ('Admin', 'Admin', 'Admin', 'Russia', 'Moscow','Admin@test.com', '" + Timestamp.valueOf(LocalDateTime.now()) + "', '1')");
+
+            statement.execute("CREATE TABLE IF NOT EXISTS  country_city ("
+                    + "id SERIAL PRIMARY KEY , "
+                    + "country VARCHAR(100) NOT NULL, "
+                    + "city VARCHAR(100) NOT NULL)");
+            statement.execute("INSERT INTO country_city (country, city) VALUES ('Russia', 'Moscow')");
+            statement.execute("INSERT INTO country_city (country, city) VALUES ('Russia', 'St. Petersburg')");
+            statement.execute("INSERT INTO country_city (country, city) VALUES ('France', 'Paris')");
+            statement.execute("INSERT INTO country_city (country, city) VALUES ('Italy', 'Rome')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,13 +98,15 @@ public class DBStore implements Store<User, Long> {
         long result = 0;
         try (Connection connection = this.ds.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "INSERT INTO user_web(name, login, email, password, create_date, id_role) VALUES (?, ?, ?, ?, ?, (SELECT id FROM role_user WHERE role_user.name = ?)) RETURNING id")) {
+                     "INSERT INTO user_web(name, login, email, password, country, city, create_date, id_role) VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT id FROM role_user WHERE role_user.name = ?)) RETURNING id")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getLogin());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPassword());
-            ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(6, user.getRole().getName());
+            ps.setString(5, user.getCountry());
+            ps.setString(6, user.getCity());
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(8, user.getRole().getName());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
@@ -108,15 +122,17 @@ public class DBStore implements Store<User, Long> {
         boolean result = false;
         try (Connection connection = this.ds.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "UPDATE user_web SET name=?, login=?, password=?, email=?, id_role = (SELECT id FROM role_user WHERE role_user.name = ?) WHERE id=?")) {
+                     "UPDATE user_web SET name=?, login=?, password=?, country = ?, city = ?, email=?, id_role = (SELECT id FROM role_user WHERE role_user.name = ?) WHERE id=?")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getLogin());
             if (!user.getPassword().equals("")) {
                 ps.setString(3, user.getPassword());
             }
-            ps.setString(4, user.getEmail());
-            ps.setString(5, user.getRole().getName());
-            ps.setLong(6, user.getId());
+            ps.setString(4, user.getCountry());
+            ps.setString(5, user.getCity());
+            ps.setString(6, user.getEmail());
+            ps.setString(7, user.getRole().getName());
+            ps.setLong(8, user.getId());
            result = ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,7 +158,7 @@ public class DBStore implements Store<User, Long> {
         List<User> result = new ArrayList<>();
         try (Connection connection = this.ds.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "SELECT u.id as id_user, u.name as name_user, u.login, u.email, u.create_date, r.id as id_role, r.name as name_role "
+                     "SELECT u.id as id_user, u.name as name_user, u.login, u.country, u.city, u.email, u.create_date, r.id as id_role, r.name as name_role "
                              + "FROM user_web AS u JOIN role_user AS r "
                              + "ON u.id_role = r.id")) {
             ResultSet rs = ps.executeQuery();
@@ -151,6 +167,8 @@ public class DBStore implements Store<User, Long> {
                 user.setId(rs.getLong("id_user"));
                 user.setName(rs.getString("name_user"));
                 user.setLogin(rs.getString("login"));
+                user.setCountry(rs.getString("country"));
+                user.setCity(rs.getString("city"));
                 user.setEmail(rs.getString("email"));
                 user.setCreateDate(rs.getTimestamp("create_date").toLocalDateTime());
                 user.setRole(new Role(rs.getLong("id_role"), rs.getString("name_role")));
@@ -167,7 +185,7 @@ public class DBStore implements Store<User, Long> {
         User result = new User();
         try (Connection connection = this.ds.getConnection();
                      PreparedStatement ps = connection.prepareStatement(
-                             "SELECT u.id as id_user, u.name as name_user, u.login, u.password, u.email, u.create_date, r.id as id_role, r.name as name_role "
+                             "SELECT u.id as id_user, u.name as name_user, u.login, u.password, u.country, u.city, u.email, u.create_date, r.id as id_role, r.name as name_role "
                              + "FROM user_web AS u JOIN role_user AS r "
                              + "ON u.id_role = r.id WHERE u.id=?")) {
             ps.setLong(1, id);
@@ -177,6 +195,8 @@ public class DBStore implements Store<User, Long> {
                 result.setName(rs.getString("name_user"));
                 result.setLogin(rs.getString("login"));
                 result.setPassword(rs.getString("password"));
+                result.setCountry(rs.getString("country"));
+                result.setCity(rs.getString("city"));
                 result.setEmail(rs.getString("email"));
                 result.setCreateDate(rs.getTimestamp("create_date").toLocalDateTime());
                 result.setRole(new Role(rs.getLong("id_role"), rs.getString("name_role")));
@@ -197,7 +217,7 @@ public class DBStore implements Store<User, Long> {
         User result = new User();
         try (Connection connection = this.ds.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "SELECT u.id as id_user, u.name as name_user, u.login, u.email, u.create_date, r.id as id_role, r.name as name_role "
+                     "SELECT u.id as id_user, u.name as name_user, u.login, u.country, u.city, u.email, u.create_date, r.id as id_role, r.name as name_role "
                              + "FROM user_web AS u JOIN role_user AS r "
                              + "ON u.id_role = r.id WHERE u.login=? AND u.password=?")) {
             ps.setString(1, login);
@@ -207,6 +227,8 @@ public class DBStore implements Store<User, Long> {
                 result.setId(rs.getLong("id_user"));
                 result.setName(rs.getString("name_user"));
                 result.setLogin(rs.getString("login"));
+                result.setCountry(rs.getString("country"));
+                result.setCity(rs.getString("city"));
                 result.setEmail(rs.getString("email"));
                 result.setCreateDate(rs.getTimestamp("create_date").toLocalDateTime());
                 result.setRole(new Role(rs.getLong("id_role"), rs.getString("name_role")));
@@ -229,6 +251,45 @@ public class DBStore implements Store<User, Long> {
             while (rs.next()) {
                 result.add(new Role(rs.getLong("id"), rs.getString("name")));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Get all country from database.
+     * @return list country.
+     */
+    public List<String> getAllCountry() {
+        List<String> result = new ArrayList<>();
+        try (Connection connection = this.ds.getConnection();
+            Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery("SELECT DISTINCT country FROM country_city");
+            while (rs.next()) {
+                result.add(rs.getString("country"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Get all city by country from database.
+     * @return list city.
+     */
+    public List<String> getAllCityByCountry(String country) {
+        List<String> result = new ArrayList<>();
+        try (Connection connection = this.ds.getConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT city FROM country_city WHERE country = ?")) {
+            ps.setString(1, country);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("city"));
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

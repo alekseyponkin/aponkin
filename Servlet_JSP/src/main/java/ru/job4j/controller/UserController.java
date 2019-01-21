@@ -59,6 +59,8 @@ public class UserController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
+        String country = req.getParameter("country");
+        String city = req.getParameter("city");
         String roleName = req.getParameter("roleName") == null ? "user" : req.getParameter("roleName");
         User user = new User();
         if (id != null) {
@@ -67,11 +69,13 @@ public class UserController extends HttpServlet {
         if (action.equals("delete")) {
             this.dispatchAction.get(action).apply(user);
         } else {
-            if (!name.equals("") && !login.equals("") && !email.equals("")) {
+            if (!name.equals("") && !login.equals("") && !email.equals("") && !country.equals("") && !city.equals("")) {
                 user.setName(name);
                 user.setLogin(login);
                 user.setPassword(password);
                 user.setEmail(email);
+                user.setCountry(country);
+                user.setCity(city);
                 user.setRole(new Role(roleName));
                 this.dispatchAction.get(action).apply(user);
             }

@@ -21,7 +21,7 @@ public class UserTable {
     /**
      * Sex user.
      */
-    private String Sex;
+    private String sex;
     /**
      * Description.
      */
@@ -43,7 +43,7 @@ public class UserTable {
     public UserTable(String firstName, String lastName, String sex, String description) {
         this.firstName = firstName;
         this.lastName = lastName;
-        Sex = sex;
+        this.sex = sex;
         this.description = description;
     }
 
@@ -64,11 +64,11 @@ public class UserTable {
     }
 
     public String getSex() {
-        return Sex;
+        return sex;
     }
 
     public void setSex(String sex) {
-        Sex = sex;
+        this.sex = sex;
     }
 
     public String getDescription() {
@@ -81,27 +81,31 @@ public class UserTable {
 
     @Override
     public String toString() {
-        return "UserTable{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", Sex='" + Sex + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "UserTable{"
+                + "firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", sex='" + sex + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserTable userTable = (UserTable) o;
-        return Objects.equals(firstName, userTable.firstName) &&
-                Objects.equals(lastName, userTable.lastName) &&
-                Objects.equals(Sex, userTable.Sex) &&
-                Objects.equals(description, userTable.description);
+        return Objects.equals(firstName, userTable.firstName)
+                && Objects.equals(lastName, userTable.lastName)
+                && Objects.equals(sex, userTable.sex)
+                && Objects.equals(description, userTable.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, Sex, description);
+        return Objects.hash(firstName, lastName, sex, description);
     }
 }
