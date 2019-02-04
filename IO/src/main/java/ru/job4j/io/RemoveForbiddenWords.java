@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * Class RemoveForbiddenWords .
@@ -18,15 +19,12 @@ public class RemoveForbiddenWords {
      * @param abuse        array abuse word.
      */
     public void dropAbuse(InputStream inputStream, OutputStream outputStream, String[] abuse) {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-             Writer out = new BufferedWriter(new OutputStreamWriter(outputStream))) {
-            while (in.ready()) {
-                String line = in.readLine();
-                for (String badWord : abuse) {
-                    line = line.replaceAll(badWord, "");
-                }
-                out.write(line.toCharArray());
-            }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+             PrintWriter writer = new PrintWriter(outputStream)) {
+            reader.lines()
+                    .map(s -> Arrays.stream(abuse)
+                            .reduce(s, ((s1, s2) -> s1.replaceAll(s2, "")))
+                    ).forEach(writer::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
