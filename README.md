@@ -9,10 +9,8 @@
 
 Целью данного курса является демонстрация навыков разработки на языке Java. (Портфолио).
 
-Ориентировочная дата окончания курса: 31.12.2018г.
-
 ## Инструменты:
- IntelliJ Idea, Maven, Git, Сheckstyle, JaCoCo, Travic CI, jUnit, Mockito, PostgreSQL, Tomcat.
+ IntelliJ Idea, Maven, Git, Сheckstyle, JaCoCo, Travic CI, jUnit, Mockito, PostgreSQL, Liquibase, Tomcat.
 
 ## Уровень - Стажер.
 
@@ -22,12 +20,16 @@
 
 ***[chapter 003: Collections - lite](https://github.com/alekseyponkin/aponkin/tree/master/chapter_003/src/main/java/ru/job4j)*** - Collections framework, обобщения, сортировка;
 
-## Уровень - Джуниор.
+## Уровень - Junior.
 
 ***[chapter 005: Collections - pro](https://github.com/alekseyponkin/aponkin/tree/master/chapter_005/src/main/java/ru/job4j)*** - Iterator, Generic, List, Set, Map, Tree;
 
-***[chapter 006: Multithreading](https://github.com/alekseyponkin/aponkin/tree/master/chapter_006/src/main/java/ru/job4j)*** - Threads, JMM, Monitor, Synchronized, Wait, Notify, Notify-All, Non Blocking Algorithm, TreadPool;
+***[IO: Input/Output](https://github.com/alekseyponkin/aponkin/tree/master/IO/src/main/java/ru/job4j)*** - Input/OutputSteam, Reader, Writer, Scanner, Path, File (io, nio);
 
 ***[SQL, JDBC](https://github.com/alekseyponkin/aponkin/tree/master/SQL_JDBC/src/main/java/ru/job4j)*** - CRUD, Query, Outer join, JDBC, XML-XSLT, JSOP;
+
+## Уровень - Middle.
+
+***[chapter 006: Multithreading](https://github.com/alekseyponkin/aponkin/tree/master/chapter_006/src/main/java/ru/job4j)*** - Threads, JMM, Monitor, Synchronized, Wait, Notify, Notify-All, Non Blocking Algorithm, TreadPool;
 
 ***[Servlet, JSP](https://github.com/alekseyponkin/aponkin/tree/master/Servlet_JSP/src/main)*** - Структура клиент-серверных приложений, HTTP, Servlet, JSP, JSTL, Filter, Security, Mockito, HTML, CSS, JS;
