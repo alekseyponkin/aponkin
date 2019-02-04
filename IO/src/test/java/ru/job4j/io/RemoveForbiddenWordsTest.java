@@ -26,7 +26,7 @@ public class RemoveForbiddenWordsTest {
         ByteArrayInputStream in = new ByteArrayInputStream("Test text with one abuse word".getBytes());
         String[] abuse = new String[] {"abuse"};
         new RemoveForbiddenWords().dropAbuse(in, out, abuse);
-        assertThat(out.toString(), is("Test text with one  word"));
+        assertThat(out.toString(), is("Test text with one  word\r\n"));
     }
 
     /**
@@ -38,6 +38,6 @@ public class RemoveForbiddenWordsTest {
         ByteArrayInputStream in = new ByteArrayInputStream("Test text with one abuse.\n One bad word.".getBytes());
         String[] abuse = new String[] {"abuse", "bad"};
         new RemoveForbiddenWords().dropAbuse(in, out, abuse);
-        assertThat(out.toString(), is("Test text with one . One  word."));
+        assertThat(out.toString(), is("Test text with one .\r\n One  word.\r\n"));
     }
 }
