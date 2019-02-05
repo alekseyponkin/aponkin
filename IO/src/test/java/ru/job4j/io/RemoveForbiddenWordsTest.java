@@ -16,6 +16,7 @@ import static org.junit.Assert.assertThat;
  * @since 23.01.2019.
  */
 public class RemoveForbiddenWordsTest {
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /**
      * Test when contains one abuse word in text.
@@ -26,7 +27,7 @@ public class RemoveForbiddenWordsTest {
         ByteArrayInputStream in = new ByteArrayInputStream("Test text with one abuse word".getBytes());
         String[] abuse = new String[] {"abuse"};
         new RemoveForbiddenWords().dropAbuse(in, out, abuse);
-        assertThat(out.toString(), is("Test text with one  word\r\n"));
+        assertThat(out.toString(), is("Test text with one  word" + LINE_SEPARATOR));
     }
 
     /**
@@ -38,6 +39,6 @@ public class RemoveForbiddenWordsTest {
         ByteArrayInputStream in = new ByteArrayInputStream("Test text with one abuse.\n One bad word.".getBytes());
         String[] abuse = new String[] {"abuse", "bad"};
         new RemoveForbiddenWords().dropAbuse(in, out, abuse);
-        assertThat(out.toString(), is("Test text with one .\r\n One  word.\r\n"));
+        assertThat(out.toString(), is("Test text with one ." + LINE_SEPARATOR + " One  word." + LINE_SEPARATOR));
     }
 }
