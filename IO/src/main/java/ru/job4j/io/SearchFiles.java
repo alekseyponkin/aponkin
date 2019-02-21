@@ -116,7 +116,7 @@ public class SearchFiles {
      * @return pattern for check.
      */
     private Pattern getPatternExt(List<String> exts) {
-        StringBuilder extsString = new StringBuilder("\\w*\\.(");
+        StringBuilder extsString = new StringBuilder("[\\s\\S]*\\.(");
         for (String ext : exts) {
             extsString.append(ext).append("|");
         }
