@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Class SearchFilesTest.
@@ -27,7 +29,7 @@ public class SearchFilesTest {
 
    @BeforeClass
    public static void init() throws IOException {
-       tempDir = System.getProperty("java.io.tmpdir") + "io";
+       tempDir = System.getProperty("java.io.tmpdir") + SEPARATOR + "io";
        tempDirDeep = tempDir + SEPARATOR + "xml";
        new File(tempDir).mkdir();
        new File(tempDirDeep).mkdir();
@@ -53,9 +55,10 @@ public class SearchFilesTest {
     @Test
     public void whenSearchThreeExtSubFolders() throws IOException {
         List<File> foundFile = new SearchFiles().files(tempDir, Arrays.asList("java", "class", "xml"));
-        assertThat(foundFile.get(0).getName(), is("test.class"));
-        assertThat(foundFile.get(1).getName(), is("test.java"));
-        assertThat(foundFile.get(2).getName(), is("pom.xml"));
+        List<String> nameFile = foundFile.stream().map(File::getName).collect(Collectors.toList());
+        assertTrue(nameFile.contains("test.class"));
+        assertTrue(nameFile.contains("test.java"));
+        assertTrue(nameFile.contains("pom.xml"));
     }
 
     /**
