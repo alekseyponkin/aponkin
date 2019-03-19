@@ -22,7 +22,8 @@
 		<module>SQL_JDBC</module>
         <module>Servlet_JSP</module>
 		<module>IO</module>
-    </modules>
+		<module>Hibernate</module>
+	</modules>
 	
 	<dependencies>
 		<dependency>
