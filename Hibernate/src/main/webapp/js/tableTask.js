@@ -3,9 +3,9 @@
  */
 function showTableTask() {
     if ($('#checkBoxShowNotDone').prop('checked')) {
-        drawTableTasks(getTask("notDone"));
+        getTask("all");
     } else {
-        drawTableTasks(getTask("all"));
+        getTask("notDone");
     }
 }
 
@@ -14,12 +14,13 @@ function showTableTask() {
  */
 function drawTableTasks(tasks) {
     $('#tableTask tr>td').remove();
+    let numberCol = 1;
     let table = '';
     tasks = sortTasksByDate(tasks);
     $.each(tasks, (index, value) => {
         table = table +
             '<tr scope="row">' +
-            '<td scope="col" class="text-center align-middle">' + value.id + '</td>' +
+            '<td scope="col" class="text-center align-middle">' + numberCol++ + '</td>' +
             '<td scope="col" class="text-center align-middle">' + value.description + '</td>' +
             '<td scope="col" class="text-center align-middle">' + value.dueDate + '</td>' +
             '<td scope="col">' +
@@ -36,7 +37,6 @@ function drawTableTasks(tasks) {
     });
     $('#tableTask tr:last').after(table);
 }
-
 
 /**
  * Sort Tasks by date.

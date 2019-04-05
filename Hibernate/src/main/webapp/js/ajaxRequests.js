@@ -9,7 +9,10 @@ function updateTask(id, done) {
         data: JSON.stringify({
             id: id,
             done: done
-        })
+        }),
+        success: function() {
+            showTableTask();
+        }
     });
 }
 
@@ -35,10 +38,11 @@ function addTask() {
  * Ajax request for get all or not done Task.
  */
 function getTask(done) {
+    let t;
     $.ajax({
         url: "./task?done=" + done,
         success: data => {
-            return data;
+            drawTableTasks(data);
         }
     });
 }

@@ -3,11 +3,11 @@
  */
 function validate() {
     if ($('#description').val() === '') {
-        alert($('#name').attr('title'));
+        alert($('#description').prop('title'));
         return false;
     }
     if ($('#dueDate').val() === '') {
-        alert($('#login').attr('title'));
+        alert($('#dueDate').prop('title'));
         return false;
     }
     return true;
