@@ -18,8 +18,12 @@ public class TaskDaoHibernateImpl implements ITaskDao {
     /**
      * Session of hibernate.
      */
-    Session session;
+    private final Session session;
 
+    /**
+     * Constructor with session of hibernate.
+     * @param session of hibernate.
+     */
     public TaskDaoHibernateImpl(Session session) {
         this.session = session;
     }
@@ -33,9 +37,7 @@ public class TaskDaoHibernateImpl implements ITaskDao {
 
     @Override
     public Task findById(Integer id) {
-        Query<Task> query = this.session.createQuery("from Task where id = :id");
-        query.setParameter("id", id);
-        return query.getSingleResult();
+        return this.session.get(Task.class, id);
     }
 
     @Override
@@ -46,13 +48,11 @@ public class TaskDaoHibernateImpl implements ITaskDao {
     @Override
     public void update(Task model) {
         this.session.update(model);
-
     }
 
     @Override
     public void delete(Task mode) {
         this.session.delete(mode);
-
     }
 
     @Override

@@ -32,46 +32,78 @@ public class TaskController extends HttpServlet {
      */
     private SessionFactory sessionFactory;
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
         this.sessionFactory = (SessionFactory) config.getServletContext().getAttribute("sessionFactory");
         super.init(config);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String done = request.getParameter("done");
+    /**
+     * Get list all Task or list not done task.
+     * @param req Http servlet request.
+     * @param resp Http servlet response.
+     * @throws IOException
+     */
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String done = req.getParameter("done");
         List<Task> tasks;
         ServiceTaskHibernateImpl serviceTask = new ServiceTaskHibernateImpl(sessionFactory);
-        if (done.equals("false")) {
+        if (done.equals("notDone")) {
             tasks = serviceTask.findAllByNotDone();
         } else {
-            tasks= serviceTask.findAll();
+            tasks = serviceTask.findAll();
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(tasks));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(mapper.writeValueAsString(tasks));
+        resp.getWriter().flush();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String jsonTask = new BufferedReader(new InputStreamReader(request.getInputStream())).readLine();
-        ObjectMapper mapper = new ObjectMapper();
-        Task task = mapper.readValue(jsonTask, Task.class);
+    /**
+     * Add new Task.
+     * @param req Http servlet request.
+     * @param resp Http servlet response.
+     * @throws IOException
+     */
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Task task = createTaskFromJson(req);
         new ServiceTaskHibernateImpl(sessionFactory).add(task);
     }
 
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonTask = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
-        ObjectMapper mapper = new ObjectMapper();
-        Task task = mapper.readValue(jsonTask, Task.class);
+    /**
+     * Update Task.
+     * @param req Http servlet request.
+     * @param resp Http servlet response.
+     * @throws IOException
+     */
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Task task = createTaskFromJson(req);
         new ServiceTaskHibernateImpl(sessionFactory).update(task);
     }
 
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    /**
+     * Delete Task.
+     * @param req Http servlet request.
+     * @param resp Http servlet response.
+     * @throws IOException
+     */
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Task task = createTaskFromJson(req);
+        new ServiceTaskHibernateImpl(sessionFactory).delete(task);
+    }
+
+    /**
+     * Create Task from Json.
+     * @param req  Http servlet request.
+     * @return Task.
+     * @throws IOException
+     */
+    private Task createTaskFromJson(HttpServletRequest req) throws IOException {
         String jsonTask = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
         ObjectMapper mapper = new ObjectMapper();
-        Task task = mapper.readValue(jsonTask, Task.class);
-        new ServiceTaskHibernateImpl(sessionFactory).delete(task);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"));
+        return mapper.readValue(jsonTask, Task.class);
     }
 }

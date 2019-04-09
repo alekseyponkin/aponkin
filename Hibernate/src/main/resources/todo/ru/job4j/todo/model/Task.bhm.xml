@@ -4,9 +4,6 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="ru.job4j.todo.model.Task" table="task">
-        <meta attribute="class-description">
-            This class contains developer's details.
-        </meta>
         <id name="id" type="int" column="id">
             <generator class="native"/>
         </id>

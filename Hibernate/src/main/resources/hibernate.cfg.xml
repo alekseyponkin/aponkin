@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
 <hibernate-configuration>
     <session-factory>
-
         <property name="connection.url">jdbc:postgresql://localhost:5432/todo</property> <!-- BD Mane -->
         <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
         <property name="connection.username">postgres</property> <!-- DB User -->
@@ -18,7 +15,6 @@
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">false</property> <!-- Show SQL formatted -->
 
-        <mapping resource="Task.bhm.xml"></mapping>
-
-</session-factory>
+        <mapping resource="todo/ru/job4j/todo/model/Task.bhm.xml"></mapping>
+    </session-factory>
 </hibernate-configuration>

@@ -2,7 +2,6 @@ package ru.job4j.todo.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import ru.job4j.todo.dao.TaskDaoHibernateImpl;
 import ru.job4j.todo.model.Task;
 
@@ -21,7 +20,7 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
     /**
      * Factory session hibernate.
      */
-    SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     /**
      * Constructor with factory session hibernate.
@@ -34,12 +33,11 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
     @Override
     public List<Task> findAllByNotDone() {
         List<Task> result = new ArrayList<>();
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
+                session.beginTransaction();
                 result = new TaskDaoHibernateImpl(session).findAllByNotDone();
-                System.out.println(result);
-                transaction.commit();
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
@@ -51,11 +49,11 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
     @Override
     public Task findById(Integer id) {
         Task result = new Task();
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
+                session.beginTransaction();
                 result = new TaskDaoHibernateImpl(session).findById(id);
-                transaction.commit();
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
@@ -67,11 +65,11 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
     @Override
     public Integer add(Task task) {
         Integer result = -1;
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
+                session.beginTransaction();
                 result = new TaskDaoHibernateImpl(session).add(task);
-                transaction.commit();
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
@@ -82,11 +80,13 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
 
     @Override
     public void update(Task task) {
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
-                new TaskDaoHibernateImpl(session).update(task);
-                transaction.commit();
+                session.beginTransaction();
+                Task oldTask = new TaskDaoHibernateImpl(session).findById(task.getId());
+                this.updateParamTask(oldTask, task);
+                new TaskDaoHibernateImpl(session).update(oldTask);
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
@@ -96,11 +96,11 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
 
     @Override
     public void delete(Task task) {
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
+                session.beginTransaction();
                 new TaskDaoHibernateImpl(session).delete(task);
-                transaction.commit();
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
@@ -111,16 +111,33 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
     @Override
     public List<Task> findAll() {
         List<Task> result = new ArrayList<>();
-        try(Session session = this.sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             try {
-                Transaction transaction = session.beginTransaction();
+                session.beginTransaction();
                 result = new TaskDaoHibernateImpl(session).findAll();
-                transaction.commit();
+                session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 e.printStackTrace();
             }
         }
         return result;
+    }
+
+    /**
+     * Update param task.
+     * @param oldTask task for updating.
+     * @param newTask task with new parameters.
+     */
+    private void updateParamTask(Task oldTask, Task newTask) {
+        if (newTask.getDescription() != null) {
+            oldTask.setDescription(newTask.getDescription());
+        }
+        if (newTask.getDueDate() != null) {
+            oldTask.setDueDate(newTask.getDueDate());
+        }
+        if (newTask.isDone() != null) {
+            oldTask.setDone(newTask.isDone());
+        }
     }
 }

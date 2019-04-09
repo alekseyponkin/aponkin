@@ -11,17 +11,16 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionListener;
 
 @WebListener()
-public class HibernateContextListener implements ServletContextListener,
+public class ContextListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
     /**
      * Session factory of Hibernate.
      */
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        this.sessionFactory = new Configuration().configure().buildSessionFactory();
         sce.getServletContext().setAttribute("sessionFactory", sessionFactory);
     }
 

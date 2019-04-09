@@ -25,12 +25,24 @@ public class Task {
     /**
      * True if task done.
      */
-    private Boolean done;
+    private Boolean done = false;
 
     /**
      * Default constructor.
      */
     public Task() {
+    }
+
+    /**
+     * Constructor with description and due date.
+     * @param description task.
+     * @param dueDate task.
+     * @param done true if task done.
+     */
+    public Task(String description, Timestamp dueDate, Boolean done) {
+        this.description = description;
+        this.dueDate = dueDate;
+        this.done = done;
     }
 
     public Integer getId() {
@@ -54,10 +66,10 @@ public class Task {
     }
 
     public void setDueDate(Timestamp dueDate) {
-        this.dueDate = dueDate;
+            this.dueDate = dueDate;
     }
 
-    public Boolean getDone() {
+    public Boolean isDone() {
         return done;
     }
 

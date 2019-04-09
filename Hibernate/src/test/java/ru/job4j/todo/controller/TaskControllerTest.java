@@ -44,21 +44,22 @@ public class TaskControllerTest {
 
     private final static SessionFactory FACTORY = new Configuration().configure().buildSessionFactory();
     private static SessionFactory proxyFactory;
-    HttpServletRequest req = mock(HttpServletRequest.class);
-    HttpServletResponse resp = mock(HttpServletResponse.class);
-    ServletConfig config = mock(ServletConfig.class);
-    ServletContext context = mock(ServletContext.class);
-    ByteArrayOutputStream out;
-    PrintWriter writer;
+
+    private final static HttpServletRequest REQ = mock(HttpServletRequest.class);
+    private final static HttpServletResponse RESP = mock(HttpServletResponse.class);
+    private final static ServletConfig CONFIG = mock(ServletConfig.class);
+    private final static ServletContext CONTEXT = mock(ServletContext.class);
+    private ByteArrayOutputStream out;
+    private PrintWriter writer;
 
     @Before
     public void beforeMethod() throws IOException {
         proxyFactory = create(FACTORY);
         out = new ByteArrayOutputStream();
         writer = new PrintWriter(out);
-        when(resp.getWriter()).thenReturn(writer);
-        when(config.getServletContext()).thenReturn(context);
-        when(context.getAttribute("sessionFactory")).thenReturn(proxyFactory);
+        when(RESP.getWriter()).thenReturn(writer);
+        when(CONFIG.getServletContext()).thenReturn(CONTEXT);
+        when(CONTEXT.getAttribute("sessionFactory")).thenReturn(proxyFactory);
     }
 
     @Test
@@ -67,10 +68,10 @@ public class TaskControllerTest {
         service.add(new Task("Not done task", new Timestamp(System.currentTimeMillis()), false));
         service.add(new Task("Done task", new Timestamp(System.currentTimeMillis()), true));
 
-        when(req.getParameter("done")).thenReturn("all");
+        when(REQ.getParameter("done")).thenReturn("all");
         TaskController controller = new TaskController();
-        controller.init(config);
-        controller.doGet(req, resp);
+        controller.init(CONFIG);
+        controller.doGet(REQ, RESP);
 
         assertThat(service.findAll().size(), is(2));
         assertTrue(out.toString().contains("\"description\":\"Not done task\""));
@@ -83,10 +84,10 @@ public class TaskControllerTest {
         service.add(new Task("Not done task", new Timestamp(System.currentTimeMillis()), false));
         service.add(new Task("Done task", new Timestamp(System.currentTimeMillis()), true));
 
-        when(req.getParameter("done")).thenReturn("notDone");
+        when(REQ.getParameter("done")).thenReturn("notDone");
         TaskController controller = new TaskController();
-        controller.init(config);
-        controller.doGet(req, resp);
+        controller.init(CONFIG);
+        controller.doGet(REQ, RESP);
 
         assertTrue(out.toString().contains("\"description\":\"Not done task\""));
         assertFalse(out.toString().contains("\"description\":\"Done task\""));
@@ -106,11 +107,11 @@ public class TaskControllerTest {
                     int length = (int) args[2];
                     return in.read(output, offset, length);
                 });
-        when(req.getInputStream()).thenReturn(servlet);
+        when(REQ.getInputStream()).thenReturn(servlet);
 
         TaskController controller = new TaskController();
-        controller.init(config);
-        controller.doPost(req, resp);
+        controller.init(CONFIG);
+        controller.doPost(REQ, RESP);
 
         assertThat(service.findAll().get(0).getDescription(), is("Run method doPost"));
     }
@@ -134,11 +135,11 @@ public class TaskControllerTest {
                     int length = (int) args[2];
                     return in.read(output, offset, length);
                 });
-        when(req.getInputStream()).thenReturn(servlet);
+        when(REQ.getInputStream()).thenReturn(servlet);
 
         TaskController controller = new TaskController();
-        controller.init(config);
-        controller.doPut(req, resp);
+        controller.init(CONFIG);
+        controller.doPut(REQ, RESP);
 
         assertTrue(service.findAll().get(0).isDone());
     }
@@ -161,12 +162,12 @@ public class TaskControllerTest {
                     int length = (int) args[2];
                     return in.read(output, offset, length);
                 });
-        when(req.getInputStream()).thenReturn(servlet);
+        when(REQ.getInputStream()).thenReturn(servlet);
 
-        when(context.getAttribute("sessionFactory")).thenReturn(FACTORY);
+        when(CONTEXT.getAttribute("sessionFactory")).thenReturn(FACTORY);
         TaskController controller = new TaskController();
-        controller.init(config);
-        controller.doDelete(req, resp);
+        controller.init(CONFIG);
+        controller.doDelete(REQ, RESP);
 
         assertTrue(service.findAll().isEmpty());
     }
