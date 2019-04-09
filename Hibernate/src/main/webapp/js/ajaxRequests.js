@@ -38,7 +38,6 @@ function addTask() {
  * Ajax request for get all or not done Task.
  */
 function getTask(done) {
-    let t;
     $.ajax({
         url: "./task?done=" + done,
         success: data => {
