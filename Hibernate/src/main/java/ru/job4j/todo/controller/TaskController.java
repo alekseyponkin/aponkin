@@ -3,6 +3,7 @@ package ru.job4j.todo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.service.IServiceTask;
 import ru.job4j.todo.service.ServiceTaskHibernateImpl;
 
 import javax.servlet.ServletConfig;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,18 +47,15 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String done = req.getParameter("done");
-        List<Task> tasks;
-        ServiceTaskHibernateImpl serviceTask = new ServiceTaskHibernateImpl(sessionFactory);
-        if (done.equals("notDone")) {
+        List<Task> tasks = new ArrayList<>();
+        IServiceTask serviceTask = new ServiceTaskHibernateImpl(sessionFactory);
+        if (req.getParameter("done").equals("notDone")) {
             tasks = serviceTask.findAllByNotDone();
         } else {
             tasks = serviceTask.findAll();
         }
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(mapper.writeValueAsString(tasks));
         resp.getWriter().flush();
     }

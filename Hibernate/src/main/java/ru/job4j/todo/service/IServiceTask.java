@@ -16,7 +16,7 @@ public interface IServiceTask {
      * Find all tasks not done.
      * @return list Task.
      */
-    List findAllByNotDone();
+    List<Task> findAllByNotDone();
 
     /**
      * Find task by id.
