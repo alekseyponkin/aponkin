@@ -1,6 +1,7 @@
 package ru.job4j.todo.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Class Task.
@@ -75,5 +76,20 @@ public class Task {
 
     public void setDone(Boolean done) {
         this.done = done;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(description, task.description) &&
+                Objects.equals(dueDate, task.dueDate) &&
+                Objects.equals(done, task.done);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, dueDate, done);
     }
 }
