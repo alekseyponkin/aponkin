@@ -2,11 +2,13 @@ package ru.job4j.todo.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import ru.job4j.todo.dao.TaskDaoHibernateImpl;
 import ru.job4j.todo.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Class ServiceTaskHibernateImpl.
@@ -32,96 +34,74 @@ public class ServiceTaskHibernateImpl implements IServiceTask {
 
     @Override
     public List<Task> findAllByNotDone() {
-        List<Task> result = new ArrayList<>();
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                result = new TaskDaoHibernateImpl(session).findAllByNotDone();
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
-        }
-        return result;
+        return this.txFunction(
+                session -> new TaskDaoHibernateImpl(session).findAllByNotDone()
+        );
     }
 
     @Override
     public Task findById(Integer id) {
-        Task result = new Task();
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                result = new TaskDaoHibernateImpl(session).findById(id);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
-        }
-        return result;
+        return this.txFunction(
+                session -> new TaskDaoHibernateImpl(session).findById(id)
+        );
     }
 
     @Override
     public Integer add(Task task) {
-        Integer result = -1;
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                result = new TaskDaoHibernateImpl(session).add(task);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
-        }
-        return result;
+        return this.txFunction(
+                session -> new TaskDaoHibernateImpl(session).add(task)
+        );
     }
 
     @Override
     public void update(Task task) {
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                Task oldTask = new TaskDaoHibernateImpl(session).findById(task.getId());
-                this.updateParamTask(oldTask, task);
-                new TaskDaoHibernateImpl(session).update(oldTask);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
-        }
+        Task oldTask = this.findById(task.getId());
+        this.updateParamTask(oldTask, task);
+        this.txConsumer(
+                session -> new TaskDaoHibernateImpl(session).update(oldTask)
+        );
     }
 
     @Override
     public void delete(Task task) {
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                new TaskDaoHibernateImpl(session).delete(task);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
-        }
+        this.txConsumer(
+                session -> new TaskDaoHibernateImpl(session).delete(task)
+        );
     }
 
     @Override
     public List<Task> findAll() {
-        List<Task> result = new ArrayList<>();
-        try (Session session = this.sessionFactory.openSession()) {
-            try {
-                session.beginTransaction();
-                result = new TaskDaoHibernateImpl(session).findAll();
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                session.getTransaction().rollback();
-                e.printStackTrace();
-            }
+        return this.txFunction(
+                session -> new TaskDaoHibernateImpl(session).findAll()
+        );
+    }
+
+    private <T> T txFunction(final Function<Session, T> command) {
+        final Session session = this.sessionFactory.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            return command.apply(session);
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            tx.commit();
+            session.close();
         }
-        return result;
+    }
+
+    private void txConsumer(final Consumer<Session> command) {
+        final Session session = this.sessionFactory.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+             command.accept(session);
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            tx.commit();
+            session.close();
+        }
     }
 
     /**
