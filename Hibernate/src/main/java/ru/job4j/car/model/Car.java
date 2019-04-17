@@ -1,5 +1,6 @@
 package ru.job4j.car.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -9,11 +10,23 @@ import java.util.Objects;
  * @version 1.0.0
  * @since 15.04.19.
  */
+@Entity
 public class Car {
+    @Id @GeneratedValue()
     private Long id;
+
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
     private Engine engine;
+
+    @ManyToOne
+    @JoinColumn(name = "transmission_id")
     private Transmission transmission;
+
+    @ManyToOne
+    @JoinColumn(name = "body_id")
     private Body body;
 
 
@@ -69,13 +82,17 @@ public class Car {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Car car = (Car) o;
-        return Objects.equals(name, car.name) &&
-                Objects.equals(engine, car.engine) &&
-                Objects.equals(transmission, car.transmission) &&
-                Objects.equals(body, car.body);
+        return Objects.equals(name, car.name)
+                && Objects.equals(engine, car.engine)
+                && Objects.equals(transmission, car.transmission)
+                && Objects.equals(body, car.body);
     }
 
     @Override
@@ -85,12 +102,11 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", engine=" + engine +
-                ", transmission=" + transmission +
-                ", body=" + body +
-                '}';
+        return "Car{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", engine=" + engine
+                + ", transmission=" + transmission
+                + ", body=" + body + '}';
     }
 }

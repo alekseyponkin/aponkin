@@ -1,5 +1,8 @@
 package ru.job4j.car.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
 /**
@@ -9,8 +12,11 @@ import java.util.Objects;
  * @version 1.0.0
  * @since 15.04.19.
  */
+@Entity
 public class Transmission {
+    @Id @GeneratedValue
     private Long id;
+
     private String name;
 
     public Transmission() {
@@ -38,8 +44,12 @@ public class Transmission {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Transmission that = (Transmission) o;
         return Objects.equals(name, that.name);
     }
@@ -51,9 +61,9 @@ public class Transmission {
 
     @Override
     public String toString() {
-        return "Transmission{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Transmission{"
+                + "id=" + id
+                + ", name='" + name
+                + '\'' + '}';
     }
 }

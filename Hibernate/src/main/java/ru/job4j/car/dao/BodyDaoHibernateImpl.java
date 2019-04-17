@@ -12,7 +12,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 16.04.19.
  */
-public class BodyDaoHibernateImpl implements IBodyDao{
+public class BodyDaoHibernateImpl implements IBodyDao {
 
     /**
      * Session of hibernate.
